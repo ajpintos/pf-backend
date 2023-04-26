@@ -1,29 +1,26 @@
 const express = require('express');
 const morgan = require('morgan');
-const mainRouter = require('./routes');
-
-require('./db.js');
 const cors = require('cors');
-const app = express();
-app.use(cors());
-app.name = 'API';
-app.use(express.json());
-app.use(mainRouter);
+const mainRouter = require('./routes/index.js');
+require('./db.js');
 
-/*app.use(bodyParser.urlencoded({ extended: true, limit: '50mb' }));
-app.use(bodyParser.json({ limit: '50mb' }));*/
-// app.use(cookieParser());
+const app = express();
+app.name = 'BIOFRESH';
+
+app.use(cors());
+app.use(express.json());
+app.use(cookieParser());
 app.use(morgan('dev'));
 app.use((req, res, next) => {
     res.header('Access-Control-Allow-Origin', 'http://localhost:3001'); // update to match the domain you will make the request from
     res.header('Access-Control-Allow-Credentials', 'true');
     res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
     res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, DELETE');
-    console.log('Hola, estoy pasando por el middleware de app.js'); //? este lo puse yo para consolear Morgan
     next();
 });
 
 
+app.use('/', mainRouter);
 
 
 // Error catching endware.
