@@ -1,1 +1,1 @@
-const { Products } = require("../src/db.js")
+const { Products } = require("../src/db.js");
