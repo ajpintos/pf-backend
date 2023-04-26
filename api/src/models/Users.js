@@ -7,15 +7,15 @@ module.exports = (sequelize) => {
       primaryKey: true,
     },
     password: {
-      type: DataTypes.STRING(250),
+      type: DataTypes.STRING(30),
       allowNull: false,
     },
     firstname: {
-      type: DataTypes.STRING(250),
+      type: DataTypes.STRING(255),
       allowNull: false,
     },
     lastname: {
-      type: DataTypes.STRING(250),
+      type: DataTypes.STRING(255),
       allowNull: false,
     },
     address: {
@@ -33,11 +33,13 @@ module.exports = (sequelize) => {
     phone: {
       type: DataTypes.STRING(50),
     },
-    costumerStatus: {
+    customerStatus: {
+      //! Aca se cambio costumer por customer
     type: DataTypes.BOOLEAN,
     defaultValue: true,
     },
     purchase: {
+      //! Aca debería ir una FK
     type: DataTypes.INTEGER,
     },
     userType: {

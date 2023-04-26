@@ -11,22 +11,17 @@ module.exports = (sequelize) => {
       type: DataTypes.STRING(50),
       allowNull: false,
     },
-    description: {
-      type: DataTypes.STRING(255),
-      allowNull: false,
-    },
-    categories : {
+    image: {
       type: DataTypes.STRING(255),
       allowNull: false,
       defaultValue: '',
     },
+    description: {
+      type: DataTypes.STRING(255),
+      allowNull: false,
+    },
     price: {
       type: DataTypes.FLOAT,
-      allowNull: false,
-      defaultValue: 0,
-    },
-    tax: {
-      type: DataTypes.INTEGER,
       allowNull: false,
       defaultValue: 0,
     },
@@ -34,7 +29,8 @@ module.exports = (sequelize) => {
       type: DataTypes.INTEGER,
       defaultValue: 0,
     },
-    image: {
+    categories : {
+      //! Aca debería ir una FK
       type: DataTypes.STRING(255),
       allowNull: false,
       defaultValue: '',
@@ -43,10 +39,17 @@ module.exports = (sequelize) => {
       type: DataTypes.BOOLEAN,
       defaultValue: true,
     },
+    tax: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      defaultValue: 0,
+    },
     ratingId: {
+      //! Aca debería ir una FK
       type: DataTypes.UUID,
     },
     favoritesId: {
+      //! Aca debería ir una FK
       type: DataTypes.UUID,
     },
     updated: {

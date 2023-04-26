@@ -8,9 +8,11 @@ module.exports = (sequelize) => {
       defaultValue: DataTypes.UUIDV4,
     },
     productId: {
+      //! Aca debería ir una FK
       type: DataTypes.UUID,
     },
     userId: {
+      //! Aca debería ir una FK
       type: DataTypes.STRING(100),
     },
     stars: {

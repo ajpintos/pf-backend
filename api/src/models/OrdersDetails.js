@@ -8,9 +8,11 @@ module.exports = (sequelize) => {
       defaultValue: DataTypes.UUIDV4,
     },
     orderId: {
+      //! Aca debería ir una FK
       type: DataTypes.UUID,
     },
     productId: {
+      //! Aca debería ir una FK
       type: DataTypes.UUID,
     },
     units: {
@@ -20,15 +22,18 @@ module.exports = (sequelize) => {
       type: DataTypes.FLOAT,
     },
     taxAmount: {
+      //! Aca debería ir una FK
       type: DataTypes.FLOAT,
     },
     totalAmount: {
       type: DataTypes.FLOAT,
     },
     deliveryId: {
+      //! Aca debería ir una FK
       type: DataTypes.UUID,
     },
     paymentId: {
+      //! Aca debería ir una FK
       type: DataTypes.UUID,
     },
     orderStatus: {

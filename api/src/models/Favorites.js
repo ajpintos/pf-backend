@@ -8,9 +8,11 @@ module.exports = (sequelize) => {
       defaultValue: DataTypes.UUIDV4,
     },
     productId: {
+      //! Aca debería ir una FK
       type: DataTypes.UUID,
     },
     userId: {
+      //! Aca debería ir una FK
       type: DataTypes.STRING(100),
     },
     active: {
@@ -18,6 +20,7 @@ module.exports = (sequelize) => {
       defaultValue: true,
     },
     updated: {
+      //! Revisar porque en el modelo no está
       type: DataTypes.DATE,
       defaultValue: DataTypes.NOW,
     },
