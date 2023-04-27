@@ -38,16 +38,12 @@ module.exports = (sequelize) => {
     type: DataTypes.BOOLEAN,
     defaultValue: true,
     },
-    purchase: {
-      //! Aca debería ir una FK
-    type: DataTypes.INTEGER,
-    },
     userType: {
-    type: DataTypes.STRING(50),
+      type: DataTypes.STRING(50),
     },
     updated: {
-    type: DataTypes.DATE,
-    defaultValue: DataTypes.NOW,
+      type: DataTypes.DATE,
+      defaultValue: DataTypes.NOW,
     },
   },{
     timestamps: false,

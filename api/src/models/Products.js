@@ -29,12 +29,6 @@ module.exports = (sequelize) => {
       type: DataTypes.INTEGER,
       defaultValue: 0,
     },
-    categories : {
-      //! Aca debería ir una FK
-      type: DataTypes.STRING(255),
-      allowNull: false,
-      defaultValue: '',
-    },
     status: {
       type: DataTypes.BOOLEAN,
       defaultValue: true,
@@ -43,14 +37,6 @@ module.exports = (sequelize) => {
       type: DataTypes.INTEGER,
       allowNull: false,
       defaultValue: 0,
-    },
-    ratingId: {
-      //! Aca debería ir una FK
-      type: DataTypes.UUID,
-    },
-    favoritesId: {
-      //! Aca debería ir una FK
-      type: DataTypes.UUID,
     },
     updated: {
       type: DataTypes.DATE,
