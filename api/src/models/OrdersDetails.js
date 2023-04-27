@@ -7,14 +7,6 @@ module.exports = (sequelize) => {
       primaryKey: true,
       defaultValue: DataTypes.UUIDV4,
     },
-    orderId: {
-      //! Aca debería ir una FK
-      type: DataTypes.UUID,
-    },
-    productId: {
-      //! Aca debería ir una FK
-      type: DataTypes.UUID,
-    },
     units: {
       type: DataTypes.INTEGER,
     },
@@ -22,19 +14,11 @@ module.exports = (sequelize) => {
       type: DataTypes.FLOAT,
     },
     taxAmount: {
-      //! Aca debería ir una FK
+      // El valor del impuesto multiplicado por el valor del producto y por las cantidades
       type: DataTypes.FLOAT,
     },
     totalAmount: {
       type: DataTypes.FLOAT,
-    },
-    deliveryId: {
-      //! Aca debería ir una FK
-      type: DataTypes.UUID,
-    },
-    paymentId: {
-      //! Aca debería ir una FK
-      type: DataTypes.UUID,
     },
     orderStatus: {
       type: DataTypes.STRING(50),
