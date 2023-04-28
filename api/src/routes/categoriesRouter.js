@@ -4,7 +4,6 @@ const { Router } = require('express');
 // ejemplo: const handlerCategories = require('../handlers/handlerCategories)
 
 
-
 // Requerir todos los middlewares para validar datos
 // ejemplo: const helperCategories = require('../helpers/handlerCategories)
 

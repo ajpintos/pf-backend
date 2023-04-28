@@ -3,12 +3,7 @@ const { Router } = require('express');
 // Requerir todos los handlers
 // ejemplo: const handlerProducts = require('../handlers/handlerProducts)
 
-
-
-// Requerir todos los middlewares para validar datos
-// ejemplo: const helperProducts = require('../helpers/handlerProducts)
-
-
+const { getAllProducts} = require('../controllers/controllers');
 
 
 const productsRouter = Router();
@@ -16,9 +11,7 @@ const productsRouter = Router();
 // Especificar todas las peticiones
 // ejemplo: productsRouter.get('/products', helperProducts, handlerProducts)
 
-
-
-
+productsRouter.get('/', getAllProducts);
 
 
 
