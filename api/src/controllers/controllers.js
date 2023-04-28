@@ -12,6 +12,7 @@ const getAllProducts = async (req, res) => {
     }
 }
 
+
 const searchProduct = async (name) => {
     const search = await Products.findAll ({ where: { name }})
     if (search) return search
