@@ -12,23 +12,6 @@ const getAllProducts = async (req, res) => {
     }
 }
 
-//? Se encarga
-const getAllUsersOrders = async (req, res) => {
-};
-
-const getAllUsersOrders = async (req, res) => {
-};
-
-const getAllUsersOrders = async (req, res) => {
-};
-
-const getAllUsersOrders = async (req, res) => {
-};
-
-const getAllUsersOrders = async (req, res) => {
-};
-
-
 
 const searchProduct = async (name) => {
     const search = await Products.findAll ({ where: { name }})
