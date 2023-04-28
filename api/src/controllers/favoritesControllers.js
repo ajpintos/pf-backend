@@ -1,7 +1,9 @@
+const Favorites = require("../models/Favorites");
+
 const getAllFavoritesController = async (req, res) => {
     try {
         console.log("Estoy en el controller de Favorites")
-        const favoriteFromDb = await Products.findAll({ where : { productFavorite : true }})
+        const favoriteFromDb = await Favorites.findAll({ where : { productFavorite : true }})
         if(favoriteFromDb.length === 0) throw Error("No hay Favorits en la DB");
         res.status(200).json(favoriteFromDb);
     } catch (error) {
