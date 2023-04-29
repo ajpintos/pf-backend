@@ -11,12 +11,8 @@ module.exports = (sequelize) => {
       type: DataTypes.BOOLEAN,
       defaultValue: true,
     },
-    updated: {
-      //! Revisar porque en el modelo no está
-      type: DataTypes.DATE,
-      defaultValue: DataTypes.NOW,
-    },
+  
   },{
-    timestamps: false,
+    timestamps: true,
   });
 };
