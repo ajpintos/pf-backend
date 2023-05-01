@@ -5,7 +5,7 @@ const path = require('path');
 const {
     DB_USER, DB_PASSWORD, DB_HOST, DB_PORT, DB_NAME
 } = process.env;
-
+console.log(DB_USER, DB_PASSWORD, DB_HOST, DB_PORT, DB_NAME)
 const sequelize = new Sequelize(`mariadb://${DB_USER}:${DB_PASSWORD}@${DB_HOST}:${DB_PORT}/${DB_NAME}`, {
     logging: false, // set to console.log to see the raw SQL queries
     native: false, // lets Sequelize know we can use pg-native for ~30% more speed
@@ -41,8 +41,11 @@ Orders.hasOne(Users);
 Users.belongsToMany(Ratings, {through: "usersRatings"});
 Ratings.belongsToMany(Users, {through: "usersRatings"});
 
-Users.belongsToMany(Favorites, {through: "usersFavorites"});
-Favorites.belongsToMany(Users, {through: "usersFavorites"});
+// Users.belongsToMany(Favorites, {through: "usersFavorites"});
+// Favorites.belongsToMany(Users, {through: "usersFavorites"});
+Users.hasOne(Favorites);
+Favorites.belongsTo(Users);
+
 
 Products.belongsToMany(Ratings, {through: "productsRatings"});
 Ratings.belongsToMany(Products, {through: "productsRatings"});
@@ -50,8 +53,11 @@ Ratings.belongsToMany(Products, {through: "productsRatings"});
 Products.belongsToMany(Categories, {through: "productsCategories"});
 Categories.belongsToMany(Products, {through: "productsCategories"});
 
-Products.belongsToMany(Favorites, {through: "productsFavorites"});
-Favorites.belongsToMany(Products, {through: "productsFavorites"});
+// Products.belongsToMany(Favorites, {through: "productsFavorites"});
+// Favorites.belongsToMany(Products, {through: "productsFavorites"});
+Products.hasOne(Favorites);
+Favorites.belongsTo(Products);
+
 
 Products.belongsToMany(OrdersDetails, {through: "productsOrdersDetails"});
 OrdersDetails.belongsToMany(Products, {through: "productsOrdersDetails"});

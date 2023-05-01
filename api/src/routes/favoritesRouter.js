@@ -1,25 +1,12 @@
 const { Router } = require('express');
-
-// Requerir todos los handlers
-// ejemplo: const handlerFavorites = require('../handlers/handlerFavorites)
-
-
-
-// Requerir todos los middlewares para validar datos
-// ejemplo: const helperFavorites = require('../helpers/handlerFavorites)
-
-
-
+//const {getAllFavoritesController} =require('../controllers/favoritesControllers')
+const { getAllFavoritesHandler, getFavoritesForUserHandler,postChangeFavoriteHandler }=require('../handlers/favoritesHandlers')
 
 const favoritesRouter = Router();
 
-// Especificar todas las peticiones
-// ejemplo: favoritesRouter.get('/favorites', helperFavorites, handlerFavorites)
-
-
-
-
-
-
+favoritesRouter.get('/', getAllFavoritesHandler);
+favoritesRouter.get('/:user', getFavoritesForUserHandler);
+favoritesRouter.post('/', postChangeFavoriteHandler); //crea favorite o modifica el estado del favorite
+                                                      //por body requiere producto y usuario  
 
 module.exports = favoritesRouter;
