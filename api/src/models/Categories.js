@@ -15,6 +15,10 @@ module.exports = (sequelize) => {
       type: DataTypes.STRING(255),
       allowNull: false,
     },
+    status: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: true,
+    },
     updated: {
       type: DataTypes.DATE,
       defaultValue: DataTypes.NOW,

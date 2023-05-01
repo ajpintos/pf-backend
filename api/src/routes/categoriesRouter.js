@@ -1,24 +1,12 @@
 const { Router } = require('express');
 
-// Requerir todos los handlers
-// ejemplo: const handlerCategories = require('../handlers/handlerCategories)
-
-
-// Requerir todos los middlewares para validar datos
-// ejemplo: const helperCategories = require('../helpers/handlerCategories)
-
-
-
+const  {getAllCategoriesHandler, getCategorieByIdHandler, postCategorieHandler, deleteCategorieHanlder} = require('../handlers/categoriesHandlers.js')
 
 const categoriesRouter = Router();
 
-// Especificar todas las peticiones
-// ejemplo: categoriesRouter.get('/categories', helperCategories, handlerCategories)
-
-
-
-
-
-
+categoriesRouter.get('/', getAllCategoriesHandler)
+categoriesRouter.get('/:idCategorie', getCategorieByIdHandler)
+categoriesRouter.post('/categorie', postCategorieHandler)
+categoriesRouter.delete('/', deleteCategorieHanlder)
 
 module.exports = categoriesRouter;
