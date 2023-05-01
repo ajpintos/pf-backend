@@ -1,4 +1,4 @@
-const { Users } = require("../db");
+const { Users , Orders } = require("../db");
 
 const createUser = async ( email , password , firstname , lastname , adress , cp , city , phone ) => {
   const newUser = await Users.findByPk(email);
@@ -14,4 +14,20 @@ const getAllUsersDB = async () => {
   else return allUsers;
 }
 
-module.exports = { createUser , getAllUsersDB };
+const getUserDB = async (userEmail) => {
+  const user = await Users.findByPk(userEmail);
+  if (user) return user;
+  else throw Error ("User did not found");
+}
+
+// const getUserOrdersDB = async (userEmail) => {
+//   const user = await Users.findByPk(userEmail, {
+//     include: {
+//       model: Orders
+//     }
+//   });
+//   if (!user) throw Error ("User does not exist");
+//   else return user;
+// }
+
+module.exports = { createUser , getAllUsersDB , getUserOrdersDB , getUserDB };
