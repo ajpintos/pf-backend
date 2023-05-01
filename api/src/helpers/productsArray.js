@@ -134,3 +134,7 @@ const productsArray = [
     }
 
 ];
+
+module.exports = {
+    productsArray,
+};
