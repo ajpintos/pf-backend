@@ -1,18 +1,45 @@
-// const { Orders , Users } = require("../db.js");
+const {Orders, Products} = require("../db");
 
-// const getOrdersDB = async () => {
-//     const ordersDB = await Orders.findAll();
-//     if (!ordersDB) throw Error("Did not found orders in DB");
-//     else return ordersDB;
-// }
+const getAllUsersOrders = async () => {
+    const allOrders = await Orders.findAll();
+    if (!allOrders) throw Error ("Did not found users in DB")
+    else return allOrders;
+}
 
-// const addOrders = async (userEmail , orderID ) => {
-//     const user = await Users.findByPk(userEmail);
-//     if (user) return await Users.addOrders(orderID);
-//     else throw Error ("Did not found user");
-// }
+const createOrder = async (id, amount, taxAmount, totalAmount, orderStatus) => {
+    const order = await Orders.create({
+        id,
+        amount,
+        taxAmount,
+        totalAmount,
+        orderStatus
+    });
+    if (!order) throw Error ("Did not create order in DB")
+    else return order;
+}
 
-// module.exports = {
-//     getOrdersDB,
-//     addOrders
-// }
+const updateOrder = async (id, amount, taxAmount, totalAmount, orderStatus) => {
+    const order = await Orders.update({
+        id,
+        amount,
+        taxAmount,
+        totalAmount,
+        orderStatus
+    });
+    if (!order) throw Error ("Did not update order in DB")
+    else return order;
+}
+
+const updateOrderStatus = async (id, orderStatus) => {
+    let orderUpdate = await Orders.findByPk(id);
+    if (orderUpdate === null) return null;
+    orderUpdate.status = orderStatus;
+    orderUpdate.save();
+    return orderUpdate;
+};
+
+const findOrderById = async (id) => {
+    const order = await Orders.findByPk(id);
+    if (!order) throw Error ("Did not found order in DB")
+    else return order;
+}
