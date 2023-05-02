@@ -1,4 +1,4 @@
-const { Users , Orders } = require("../db");
+const { Users } = require("../db");
 
 const createUser = async ( email , password , firstname , lastname , adress , cp , city , phone ) => {
   const newUser = await Users.findByPk(email);
@@ -30,4 +30,4 @@ const getUserDB = async (userEmail) => {
 //   else return user;
 // }
 
-module.exports = { createUser , getAllUsersDB , getUserOrdersDB , getUserDB };
+module.exports = { createUser , getAllUsersDB , getUserDB };

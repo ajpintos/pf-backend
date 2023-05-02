@@ -1,4 +1,4 @@
-const { createUser , getAllUsersDB, getUserDB , getUserOrdersDB } = require("../controllers/usersControllers.js")
+const { createUser , getAllUsersDB, getUserDB } = require("../controllers/usersControllers.js")
 
 const postUsers = async (req, res) => {
     const { email , password , firstname , lastname , adress , cp , city , phone } = req.body;
@@ -29,19 +29,18 @@ const getUser = async (req, res) => {
     }
 }
 
-const getUserOrders = async (req, res) => {
-    const { userEmail } = req.body;
-    try {
-        const userOrders = getUserOrdersDB(userEmail);
-        res.status(200).json(userOrders);
-    } catch (error) {
-        res.status(400).json({ error : error.message })
-    }
-};
+// const getUserOrders = async (req, res) => {
+//     const { userEmail } = req.body;
+//     try {
+//         const userOrders = getUserOrdersDB(userEmail);
+//         res.status(200).json(userOrders);
+//     } catch (error) {
+//         res.status(400).json({ error : error.message })
+//     }
+// };
 
 module.exports = {
     postUsers,
     getAllUsers,
-    getUser,
-    getUserOrders
+    getUser
 }
