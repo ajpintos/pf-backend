@@ -16,8 +16,8 @@ const ordersRouter = Router();
 // Especificar todas las peticiones
 // ejemplo: ordersRouter.get('/orders', helperOrders, handlerOrders)
 
-ordersRouter.get("/", getAllOrders);
-ordersRouter.post("/", addOrderUser);
+/*ordersRouter.get("/", getAllOrders);
+ordersRouter.post("/", addOrderUser);*/
 
 
 
