@@ -7,7 +7,7 @@ const { conn } = require('./src/db.js');
 conn.sync({ force: true }).then( async () => {  // cambio a alter en lugar de force
     await getAllCategoriesHelpers();
     await getAllProductsFile(); // cargo todos los productos del arreglo productsArray en helpers
-    app.listen(3001, () => {
-        console.log('Servidor corriendo en el puerto 3001');
+    app.listen(process.env.PORT, () => {
+        console.log('Servidor corriendo en el puerto' , process.env.PORT);
     });
 });
