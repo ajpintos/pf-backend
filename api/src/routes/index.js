@@ -16,12 +16,19 @@ const mainRouter = Router()
 // Configurar los routers
 // ejemplo mainRouter.use('/users', usersRouter)
 
-
+//! Rutas para correr en local
 mainRouter.use('/users', usersRouter);
 mainRouter.use('/categories', categoriesRouter);
 mainRouter.use('/products', productsRouter);
 // mainRouter.use('/orders', ordersRouter);
 mainRouter.use('/favorites', favoritesRouter);
+
+//! Rutas para correr en el server
+/*mainRouter.use('/backend/users', usersRouter);
+mainRouter.use('/backend/categories', categoriesRouter);
+mainRouter.use('/backend/products', productsRouter);
+// mainRouter.use('/orders', ordersRouter);
+mainRouter.use('/backend/favorites', favoritesRouter);*/
 
 
 module.exports = mainRouter;
