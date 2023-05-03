@@ -20,6 +20,20 @@ const getUserDB = async (userEmail) => {
   else throw Error ("User did not found");
 }
 
+const updateUserDB = async ( email , password , firstname , lastname , adress , cp , city , phone ) => {
+  const userDB = await Users.findByPk(email)
+  if (userDB === null) return null;
+  return await userDB.update({
+    password,
+    firstname,
+    lastname,
+    adress,
+    cp,
+    city,
+    phone
+  });
+};
+
 // const getUserOrdersDB = async (userEmail) => {
 //   const user = await Users.findByPk(userEmail, {
 //     include: {
