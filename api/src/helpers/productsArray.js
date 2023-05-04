@@ -36,7 +36,7 @@ const productsArray = [
     },
     {
         name: "Pistachos",
-        image: "https://biofresh.shop/img/pistachos.jpg",
+        image: "https://biofresh.shop/img/pistachios.jpg",
         description: "Fruto seco rico en grasas saludables, proteínas y fibra.",
         price: 5.00,
         stock: 25
@@ -127,7 +127,7 @@ const productsArray = [
     },
     {
         name: "Té de menta",
-        image: "https://biofresh.shop/img/te-menta.jpg",
+        image: "https://biofresh.shop/img/te-de-menta.jpg",
         description: "Té natural de hojas de menta fresca, con propiedades digestivas y relajantes.",
         price: 2.50,
         stock: 30
