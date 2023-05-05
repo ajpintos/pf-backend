@@ -38,8 +38,8 @@ const updateUserDB = async ( email , password , firstname , lastname , adress , 
 
 const loginUser = async ( email , password ) => {
   if (!email || !password) throw Error("Please enter email and password");
-  const user = await Users.findByPk(email);
-  if (!user) throw Error ("Email did not found");
+  const user = await Users.findOne({ where : { email }});
+  if (!user) throw Error ("Incorrect email");
   else if (user.password !== password) throw Error ("Incorrect password");
   else return user;
 }
@@ -61,15 +61,3 @@ module.exports = {
   loginUser,
   updateUserDB 
 };
-
-// exports.logout = (req, res) => {
-//   req.session.destroy((err) => {
-//     if (err) {
-//       return res.status(500).json({ message: 'No se pudo cerrar la sesión' });
-//     }
-
-//     res.clearCookie('connect.sid');
-//     res.json({ message: 'Sesión cerrada exitosamente' });
-//   });
-// };
-
