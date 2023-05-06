@@ -13,7 +13,7 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(morgan('dev'));
 app.use((req, res, next) => {
-    res.header('Access-Control-Allow-Origin', 'http://127.0.0.1:5173');
+    res.header('Access-Control-Allow-Origin', 'http://localhost:5173');
     //res.header('Access-Control-Allow-Origin', 'http://localhost:3001'); //! no borrar! este setting se usa para el
     // deploy
     // the request from
