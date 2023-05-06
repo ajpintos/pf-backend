@@ -1,16 +1,16 @@
-const { createUser , getAllUsersDB, getUserDB } = require("../controllers/usersControllers.js")
+const { createUser , getAllUsersDB, getUserDB , loginUser , updateUserDB } = require("../controllers/usersControllers.js")
 
-const postUsers = async (req, res) => {
-    const { email , password , firstname , lastname , adress , cp , city , phone } = req.body;
+const postUserHandler = async (req, res) => {
+    const { email , password , firstname , lastname , address , cp , city , country , phone } = req.body;
     try {
-        const newUser = await createUser( email , password , firstname , lastname , adress , cp , city , phone )
+        const newUser = await createUser( email , password , firstname , lastname , address , cp , city , country , phone )
         res.status(200).send(newUser);
     } catch (error) {
         res.status(400).json({ error : error.message });
     }
 };
 
-const getAllUsers = async (req, res) => {
+const getAllUsersHandler = async (req, res) => {
     try {
         const allUsersDB = await getAllUsersDB();
         res.status(200).json(allUsersDB);
@@ -19,13 +19,33 @@ const getAllUsers = async (req, res) => {
     }
 };
 
-const getUser = async (req, res) => {
+const getUserHandler = async (req, res) => {
     const { userEmail } = req.params;
     try {
-        const user = getUserDB(userEmail);
+        const user = await getUserDB(userEmail);
         res.status(200).json(user);
     } catch (error) {
         res.status(400).json({ error: error.message });
+    }
+}
+
+const loginUserHandler = async (req, res) => {
+    const { email , password } = req.body;
+    try {
+        const user = await loginUser(email, password);
+        if (user) res.status(200).send("Login successfull");
+    } catch (error) {
+        res.status(400).json({ error : error.message});
+    }
+}
+
+const updateUserDBHandler = async (req,res) => {
+    const { email , password , firstname , lastname , address , cp , city , country , phone } = req.body;
+    try {
+        const userUpdate = await updateUserDB( email , password , firstname , lastname , address , cp , city , country , phone );
+        res.status(201).json(userUpdate);
+    } catch (error) {
+        res.status(400).json({ error : error.message});
     }
 }
 
@@ -40,7 +60,9 @@ const getUser = async (req, res) => {
 // };
 
 module.exports = {
-    postUsers,
-    getAllUsers,
-    getUser
-}
+    postUserHandler,
+    getAllUsersHandler,
+    getUserHandler,
+    loginUserHandler,
+    updateUserDBHandler
+};

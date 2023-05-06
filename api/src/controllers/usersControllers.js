@@ -1,9 +1,9 @@
 const { Users } = require("../db");
 
-const createUser = async ( email , password , firstname , lastname , adress , cp , city , phone ) => {
+const createUser = async ( email , password , firstname , lastname , address , cp , city , country , phone ) => {
   const newUser = await Users.findByPk(email);
   if (!newUser) {
-      await Users.create({ email , password , firstname ,  lastname , adress , cp , city , phone })
+      await Users.create({ email , password , firstname ,  lastname , address , cp , city , country , phone })
       return "User Created succesfully";
   } else throw Error ("Email already exist");
 };
@@ -23,7 +23,7 @@ const getUserDB = async (userEmail) => {
 const updateUserDB = async ( email , password , firstname , lastname , adress , cp , city , phone ) => {
   const userDB = await Users.findByPk(email)
   if (userDB === null) return null;
-  return await userDB.update({
+  await userDB.update({
     password,
     firstname,
     lastname,
@@ -32,7 +32,17 @@ const updateUserDB = async ( email , password , firstname , lastname , adress , 
     city,
     phone
   });
+  userDB.save();
+  return userDB;
 };
+
+const loginUser = async ( email , password ) => {
+  if (!email || !password) throw Error("Please enter email and password");
+  const user = await Users.findOne({ where : { email }});
+  if (!user) throw Error ("Incorrect email");
+  else if (user.password !== password) throw Error ("Incorrect password");
+  else return user;
+}
 
 // const getUserOrdersDB = async (userEmail) => {
 //   const user = await Users.findByPk(userEmail, {
@@ -44,4 +54,10 @@ const updateUserDB = async ( email , password , firstname , lastname , adress , 
 //   else return user;
 // }
 
-module.exports = { createUser , getAllUsersDB , getUserDB };
+module.exports = { 
+  createUser, 
+  getAllUsersDB, 
+  getUserDB, 
+  loginUser,
+  updateUserDB 
+};
