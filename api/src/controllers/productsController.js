@@ -31,7 +31,7 @@ const getAllProducts = async () => {
       model: Categories,
       attributes: ['id', 'name'],
       through: {
-        categories: [],
+        attributes: [],
       }
     }]});
 };
@@ -43,7 +43,7 @@ const getProductsByName = async (name) => {
       model: Categories,
       attributes: ['id', 'name'],
       through: {
-        categories: [],
+        attributes: [],
       }
     }]});
 };
@@ -54,7 +54,7 @@ const getProductById = async(prodId) => {
       model: Categories,
       attributes: ['id', 'name'],
       through: {
-        categories: [],
+        attributes: [],
       }
     }]});
 };
@@ -70,7 +70,8 @@ const postProduct = async (product, categories) => {
     },
   }});
   if (productPost === null) return null;
-  // productPost.setCategories(categories);
+  
+  productPost.setCategories(categories);
   return productPost;
 };
 
@@ -86,7 +87,8 @@ const putProduct = async (product, categories) => {
   productPut.tax = product.tax;
   productPut.status = product.status;
   productPut.save();
-  // productPut.setCategories(categories);
+
+  productPut.setCategories(categories);
   return productPut;
 };
 
