@@ -30,7 +30,7 @@ const getAllUsersHandler = async (req, res) => {
 // }
 
 const loginUserHandler = async (req, res) => {
-    const { email , password } = req.body;
+    const { email , password } = req.query;
     try {
         const user = await loginUser(email, password);
         if (user) res.status(200).send(user);
