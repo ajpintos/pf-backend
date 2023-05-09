@@ -19,21 +19,21 @@ const getAllUsersHandler = async (req, res) => {
     }
 };
 
-const getUserHandler = async (req, res) => {
-    const { userEmail } = req.params;
-    try {
-        const user = await getUserDB(userEmail);
-        res.status(200).json(user);
-    } catch (error) {
-        res.status(400).json({ error: error.message });
-    }
-}
+// const getUserHandler = async (req, res) => {
+//     const { userEmail } = req.params;
+//     try {
+//         const user = await getUserDB(userEmail);
+//         res.status(200).json(user);
+//     } catch (error) {
+//         res.status(400).json({ error: error.message });
+//     }
+// }
 
 const loginUserHandler = async (req, res) => {
-    const { email , password } = req.body;
+    const { email , password } = req.query;
     try {
         const user = await loginUser(email, password);
-        if (user) res.status(200).send("Login successfull");
+        if (user) res.status(200).send(user);
     } catch (error) {
         res.status(400).json({ error : error.message});
     }
@@ -62,7 +62,6 @@ const updateUserDBHandler = async (req,res) => {
 module.exports = {
     postUserHandler,
     getAllUsersHandler,
-    getUserHandler,
     loginUserHandler,
     updateUserDBHandler
 };

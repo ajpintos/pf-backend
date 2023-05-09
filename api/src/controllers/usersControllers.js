@@ -14,11 +14,11 @@ const getAllUsersDB = async () => {
   else return allUsers;
 }
 
-const getUserDB = async (userEmail) => {
-  const user = await Users.findByPk(userEmail);
-  if (user) return user;
-  else throw Error ("User did not found");
-}
+// const getUserDB = async (userEmail) => {
+//   const user = await Users.findByPk(userEmail);
+//   if (user) return user;
+//   else throw Error ("User did not found");
+// }
 
 const updateUserDB = async ( email , password , firstname , lastname , adress , cp , city , phone ) => {
   const userDB = await Users.findByPk(email)
@@ -38,7 +38,7 @@ const updateUserDB = async ( email , password , firstname , lastname , adress , 
 
 const loginUser = async ( email , password ) => {
   if (!email || !password) throw Error("Please enter email and password");
-  const user = await Users.findOne({ where : { email }});
+  const user = await Users.findByPk(email);
   if (!user) throw Error ("Incorrect email");
   else if (user.password !== password) throw Error ("Incorrect password");
   else return user;
@@ -56,8 +56,7 @@ const loginUser = async ( email , password ) => {
 
 module.exports = { 
   createUser, 
-  getAllUsersDB, 
-  getUserDB, 
+  getAllUsersDB,
   loginUser,
   updateUserDB 
 };
