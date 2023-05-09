@@ -59,6 +59,12 @@ const getProductById = async(prodId) => {
     }]});
 };
 
+const getProductsByCategory = async (category) => {
+  const categoryFound = await Categories.findByPk(category);
+  const products = await categoryFound.getProducts();
+  return products;
+};
+
 const postProduct = async (product, categories) => {
   let productPost = await Products.create(product);
   const idProduct = productPost.id;
@@ -66,7 +72,7 @@ const postProduct = async (product, categories) => {
     model: Categories, 
     attributes : ['id', 'name'],
     through: {
-      categories: [],
+      attributes: [],
     },
   }});
   if (productPost === null) return null;
@@ -105,6 +111,7 @@ module.exports = {
   getAllProducts,
   getProductsByName,
   getProductById,
+  getProductsByCategory,
   postProduct,
   putProduct,
   deleteProduct,
