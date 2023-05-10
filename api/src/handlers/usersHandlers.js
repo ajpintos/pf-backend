@@ -19,16 +19,6 @@ const getAllUsersHandler = async (req, res) => {
     }
 };
 
-// const getUserHandler = async (req, res) => {
-//     const { userEmail } = req.params;
-//     try {
-//         const user = await getUserDB(userEmail);
-//         res.status(200).json(user);
-//     } catch (error) {
-//         res.status(400).json({ error: error.message });
-//     }
-// }
-
 const loginUserHandler = async (req, res) => {
     const { email , password } = req.query;
     try {
