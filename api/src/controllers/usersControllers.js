@@ -10,15 +10,9 @@ const createUser = async ( email , password , firstname , lastname , address , c
 
 const getAllUsersDB = async () => {
   const allUsers = await Users.findAll();
-  if (!allUsers) throw Error ("Did not found users in DB")
+  if (!allUsers) throw Error ("Did not found users in DB");
   else return allUsers;
 }
-
-// const getUserDB = async (userEmail) => {
-//   const user = await Users.findByPk(userEmail);
-//   if (user) return user;
-//   else throw Error ("User did not found");
-// }
 
 const updateUserDB = async ( email , password , firstname , lastname , adress , cp , city , phone ) => {
   const userDB = await Users.findByPk(email)

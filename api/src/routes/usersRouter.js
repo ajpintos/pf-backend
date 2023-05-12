@@ -15,17 +15,13 @@ usersRouter.get("/", getAllUsersHandler);
 //Get router para el inicio de sesión
 usersRouter.get("/login", loginUserHandler);
 
-/*usersRouter.get('/:id', getUserIdHandler)*/
-// usersRouter.get("/:userEmail",getUserHandler);
-
-
-/*usersRouter.get("/userOrders") */
-// usersRouter.get("/userOrders", getUserOrders);
-
 //Post router para la creación del usuario
 usersRouter.post("/", postUserHandler);
 
-
+//Put router para modificar los datos del usuario
 usersRouter.put("/", updateUserDBHandler);
+
+/*usersRouter.get("/userOrders") */
+// usersRouter.get("/userOrders", getUserOrders);
 
 module.exports = usersRouter;
