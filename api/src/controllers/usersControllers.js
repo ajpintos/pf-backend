@@ -46,12 +46,12 @@ const updateUserDB = async ( email , password , firstname , lastname , adress , 
     password,
     firstname,
     lastname,
-    adress,
+    address,
     cp,
     city,
     phone
   });
-  userDB.save();
+  await userDB.save();
   return userDB;
 };
 
