@@ -20,7 +20,7 @@ const loginUser = async ( email , password ) => {
 const loginUserGoogle = async ( email , firstname , lastname ) => {
   const user = await Users.findByPk(email);
   if (!user) {
-    const password = firstname + lastname;
+    const password = `${firstname}Google2023`;
     const userType = "common_Google";
     const newUserGoogle = await Users.create({ email , password , firstname , lastname , userType });
     return newUserGoogle;
@@ -39,7 +39,7 @@ const getUser = async ( email ) => {
   else return findUser;
 }
 
-const updateUserDB = async ( email , password , firstname , lastname , adress , cp , city , phone ) => {
+const updateUserDB = async ( email , password , firstname , lastname , address , cp , city , phone ) => {
   const userDB = await Users.findByPk(email)
   if (userDB === null) return null;
   await userDB.update({
