@@ -1,4 +1,6 @@
-const { createUser , getAllUsersDB, getUserDB , loginUser , updateUserDB } = require("../controllers/usersControllers.js")
+const { createUser , getAllUsersDB, loginUser , updateUserDB, loginUserGoogle, getUser } = require("../controllers/usersControllers.js")
+
+//Handler para crear un usuario mediante el formulario del front
 
 const postUserHandler = async (req, res) => {
     const { email , password , firstname , lastname , address , cp , city , country , phone } = req.body;
@@ -10,24 +12,20 @@ const postUserHandler = async (req, res) => {
     }
 };
 
-const getAllUsersHandler = async (req, res) => {
+//Handler para obtener 1 user especifico o todos los users de la DB
+
+const getUsersHandler = async (req, res) => {
     try {
-        const allUsersDB = await getAllUsersDB();
-        res.status(200).json(allUsersDB);
+        const { email } = req.query;
+        
+        const userDB = email ? await getUser(email) : await getAllUsersDB();
+        res.status(200).json(userDB);
     } catch (error) {
         res.status(400).json({ error: error.message });
     }
 };
 
-// const getUserHandler = async (req, res) => {
-//     const { userEmail } = req.params;
-//     try {
-//         const user = await getUserDB(userEmail);
-//         res.status(200).json(user);
-//     } catch (error) {
-//         res.status(400).json({ error: error.message });
-//     }
-// }
+//Handler para loguear con el usuario y contraseña de la DB
 
 const loginUserHandler = async (req, res) => {
     const { email , password } = req.query;
@@ -37,7 +35,21 @@ const loginUserHandler = async (req, res) => {
     } catch (error) {
         res.status(400).json({ error : error.message});
     }
-}
+};
+
+//Handler para loguearse con la auth de Google
+
+const loginUserGoogleHandler = async (req, res) => {
+    const { email , firstname , lastname } = req.query;
+    try {
+        const userGoogle = await loginUserGoogle( email , firstname , lastname );
+        res.status(200).send(userGoogle);
+    } catch (error) {
+        res.status(400).json({ error : error.message });
+    }
+};
+
+//Handler para modificar datos del usuario en la DB
 
 const updateUserDBHandler = async (req,res) => {
     const { email , password , firstname , lastname , address , cp , city , country , phone } = req.body;
@@ -47,7 +59,7 @@ const updateUserDBHandler = async (req,res) => {
     } catch (error) {
         res.status(400).json({ error : error.message});
     }
-}
+};
 
 // const getUserOrders = async (req, res) => {
 //     const { userEmail } = req.body;
@@ -61,7 +73,8 @@ const updateUserDBHandler = async (req,res) => {
 
 module.exports = {
     postUserHandler,
-    getAllUsersHandler,
+    getUsersHandler,
     loginUserHandler,
+    loginUserGoogleHandler,
     updateUserDBHandler
 };

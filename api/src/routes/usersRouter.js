@@ -3,29 +3,28 @@ const { Router } = require("express");
 
 // ejemplo: const handlerUsers = require('../handlers/handlerUsers)
 // Requerir todos los middlewares para validar datos
-const { getAllUsersHandler , postUserHandler , loginUserHandler , updateUserDBHandler } = require("../handlers/usersHandlers.js");
+const { getUsersHandler , postUserHandler , loginUserHandler , updateUserDBHandler, loginUserGoogleHandler } = require("../handlers/usersHandlers.js");
 
 // ejemplo: const helperUsers = require('../helpers/handlerUsers)
 
 const usersRouter = Router();
 // Especificar todas las peticiones
 // ejemplo: usersRouter.get('/users', helperUser, handlerUser)
-usersRouter.get("/", getAllUsersHandler);
+usersRouter.get("/", getUsersHandler);
 
 //Get router para el inicio de sesión
 usersRouter.get("/login", loginUserHandler);
 
-/*usersRouter.get('/:id', getUserIdHandler)*/
-// usersRouter.get("/:userEmail",getUserHandler);
-
-
-/*usersRouter.get("/userOrders") */
-// usersRouter.get("/userOrders", getUserOrders);
+//Get router para el inicio de sesión con google
+usersRouter.get("/login/google", loginUserGoogleHandler);
 
 //Post router para la creación del usuario
 usersRouter.post("/", postUserHandler);
 
-
+//Put router para modificar los datos del usuario
 usersRouter.put("/", updateUserDBHandler);
+
+/*usersRouter.get("/userOrders") */
+// usersRouter.get("/userOrders", getUserOrders);
 
 module.exports = usersRouter;

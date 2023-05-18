@@ -1,12 +1,12 @@
 const { getAllProducts, getProductsByName, getProductById, postProduct, putProduct, deleteProduct, getProductsByCategory } = require("../controllers/productsController");
 
 const handlerGetProducts = async (req, res) => {
-  const { name, category } = req.query;
+  const { name, category, order } = req.query;
   try {
     const productsArray = name 
       ? await getProductsByName(name)
       : category 
-        ? await getProductsByCategory(category)
+        ? await getProductsByCategory(category, order)
         : await getAllProducts();
     if (productsArray.length < 1) throw Error('Products not found');
     res.status(200).json(productsArray);
