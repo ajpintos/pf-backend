@@ -36,7 +36,7 @@ const { Users, Products, Categories, Ratings, Favorites, Orders, OrdersDetails, 
 // // Aca vendrían las relaciones
 
 Users.belongsToMany(Orders, {through: "usersOrders"});
-Orders.hasOne(Users);
+Orders.belongsToMany(Users, {through: "usersOrders"});
 
 Users.belongsToMany(Ratings, {through: "usersRatings"});
 Ratings.belongsToMany(Users, {through: "usersRatings"});
@@ -62,11 +62,11 @@ Favorites.belongsTo(Products);
 Products.belongsToMany(OrdersDetails, {through: "productsOrdersDetails"});
 OrdersDetails.belongsToMany(Products, {through: "productsOrdersDetails"});
 
-Orders.hasOne(OrdersDetails);
-OrdersDetails.hasOne(Orders);
+Orders.belongsToMany(OrdersDetails, {through: "ordersOrdersDetails"});
+OrdersDetails.belongsToMany(Orders, {through: "ordersOrdersDetails"});
 
-Orders.hasOne(Deliveries);
-Deliveries.belongsToMany(Orders, {through: "ordersDeliveries"});
+Orders.hasMany(Deliveries);
+Deliveries.hasOne(Orders);
 
 OrdersDetails.hasOne(Deliveries);
 Deliveries.belongsToMany(OrdersDetails, {through: "ordersDetails.Deliveries"});

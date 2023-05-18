@@ -1,53 +1,98 @@
-const { Orders } = require("../db");
+const { Orders, OrdersDetails, Users } = require("../db");
 
-const getAllUsersOrders = async () => {
-    const allOrders = await Orders.findAll();
-    if (!allOrders) throw Error ("Did not found users in DB")
-    else return allOrders;
+const getAllOrders = async () => {
+    return await Orders.findAll( {
+        include : [
+            {
+                model: OrdersDetails,
+                attributes: ['id'],
+                through: {
+                    attributes: [],
+                }
+            },
+            {
+                model: Users,
+                attributes: ['email', 'firstname', 'lastname'],
+                through: {
+                    attributes: [],
+                }
+            }
+        ]
+    });
 };
 
-const createOrder = async (id, amount, taxAmount, totalAmount, orderStatus) => {
-    const order = await Orders.create({
-        id,
-        amount,
-        taxAmount,
-        totalAmount,
-        orderStatus
+const getOrderById = async (id) => {
+    return await Orders.findByPk(id, {
+        include : [
+            {
+                model: OrdersDetails,
+                attributes: ['id'],
+                through: {
+                    attributes: [],
+                }
+            },
+            {
+                model: Users,
+                attributes: ['email', 'firstname', 'lastname'],
+                through: {
+                    attributes: [],
+                }
+            }
+        ]
     });
-    if (!order) throw Error ("Did not create order in DB")
-    else return order;
+};
+
+const postOrder = async (userId) => {
+    const userFound = await Users.findByPk(userId);
+    if (userFound === null) throw Error('User not found');
+    const orderResult = await Orders.create({
+        orderStatus: 'Cart',
+    });
+    if (orderResult === null) return null;
+    userFound.addOrder(orderResult.id);
+    return orderResult;
 }
 
-const updateOrder = async (id, amount, taxAmount, totalAmount, orderStatus) => {
-    const order = await Orders.update({
-        id,
-        amount,
-        taxAmount,
-        totalAmount,
-        orderStatus
-    });
-    if (!order) throw Error ("Did not update order in DB")
-    else return order;
+const putOrder = async ({ id, amount, taxAmount, totalAmount, orderStatus }) => {
+    const orderPut = await Orders.findByPk(id, {
+        include : [{
+            model: OrdersDetails,
+            attributes: ['id', 'name'],
+            through: {
+                attributes: [],
+            }
+        }]});
+    if (orderPut === null) return null;
+    orderPut.amount =  amount;
+    orderPut.taxAmount =  taxAmount;
+    orderPut.totalAmount =  totalAmount;
+    orderPut.orderStatus =  orderStatus;
+    orderPut.save();
+
+    return orderPut;
 };
 
-const updateOrderStatus = async (id, orderStatus) => {
-    let orderUpdate = await Orders.findByPk(id);
-    if (orderUpdate === null) return null;
-    orderUpdate.status = orderStatus;
-    orderUpdate.save();
-    return orderUpdate;
+const deleteOrder = async (idOrder, status) => {
+    const orderDelete = await Orders.findByPk(idOrder, {
+        include : [{
+            model: OrdersDetails,
+            attributes: ['id', 'name'],
+            through: {
+                attributes: [],
+            }
+        }]});
+    if (orderDelete === null) return null;
+    orderDelete.orderStatus = status;
+    orderDelete.save();
+    return orderDelete;
 };
 
-const findOrderById = async (id) => {
-    const order = await Orders.findByPk(id);
-    if (!order) throw Error ("Did not found order in DB")
-    else return order;
-};
+
 
 module.exports = {
-    getAllUsersOrders,
-    createOrder,
-    updateOrder,
-    updateOrderStatus,
-    findOrderById
+    getAllOrders,
+    getOrderById,
+    postOrder,
+    putOrder,
+    deleteOrder,
 }

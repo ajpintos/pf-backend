@@ -1,25 +1,72 @@
-// const { getOrdersDB, addOrders } = require("../controllers/ordersControllers.js");
+const { getAllOrders, getOrderById, postOrder, putOrder, deleteOrder } = require('../controllers/ordersControllers.js');
 
-// const getAllOrders = async ( req , res ) => {
-//     try {
-//         const allOrdersDB = await getOrdersDB();
-//         res.status(200).json(allOrdersDB);
-//     } catch (error) {
-//         res.status(400).json({ error : error.message})
-//     }
-// };
+const handlerGetAllOrders = async ( req , res ) => {
+    try {
+        const allOrders = await getAllOrders();
+        if (allOrders.length < 1) throw Error('Orders not found');
+        res.status(200).json(allOrders);
+    } catch (error) {
+        res.status(400).json(error.message);
+    }
+};
 
-// const addOrderUser = async ( req , res ) => {
-//     const { userEmail , orderID } = req.body;
-//     try {
-//         const user = await addOrders( userEmail , orderID );
-//         res.status(200).json("ok");
-//     } catch (error) {
-//         res.status(400).json({ error : error.message });
-//     }
-// }
+const handlerGetOrderById = async ( req, res ) => {
+    try {
+        const orderId = req.params.orderId;
+        const orderFound = await getOrderById(orderId);
+        if (orderFound === null) throw Error('Order not Found');
+        res.status(200).json(orderFound);
+    } catch (error) {
+        res.status(400).json(error.message);
+    }
+}
 
-// module.exports = {
-//     getAllOrders,
-//     addOrderUser
-// }
+const handlerPostOrder = async ( req , res ) => {
+    try {
+        const { userId } = req.body;
+        const orderFound = await postOrder(userId);
+        if (orderFound === null) throw Error ("Did not create order in DB");
+        res.status(200).json(orderFound);
+    } catch (error) {
+        res.status(400).json(error.message);
+    }
+}
+
+const handlerPutOrders = async ( req, res ) => {
+    try {
+        const body = req.body;
+        const order = {
+            id: body.id,
+            amount: body.amount,
+            taxAmount: body.taxAmount,
+            totalAmount: body.totalAmount,
+            orderStatus: body.orderStatus,
+        };
+        const orderFound = await putOrder(order);
+        if (orderFound === null) throw Error('Could not update order');
+        res.status(200).json(orderFound);
+    } catch (error) {
+        res.status(400).json(error.message);   
+    }
+}
+
+const handlerDeleteOrders = async ( req, res ) => {
+    try {
+        const body = req.body;
+        const idOrder = body.id;
+        const status = body.status;
+        const orderResult = await deleteOrder(idOrder, status);
+        if ( orderResult === null) throw Error ('Could not disable order or order not found');
+        res.status(200).json(orderResult);    
+    } catch (error) {
+        res.status(400).json(error.message);    
+    }
+}
+
+module.exports = {
+    handlerGetAllOrders,
+    handlerGetOrderById,
+    handlerPostOrder,
+    handlerPutOrders,
+    handlerDeleteOrders,
+}

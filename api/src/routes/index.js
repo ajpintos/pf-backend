@@ -6,7 +6,8 @@ const { Router } = require('express');
 const usersRouter = require('./usersRouter');
 const categoriesRouter = require('./categoriesRouter');
 const productsRouter = require('./productsRouter');
-// const ordersRouter = require('./ordersRouter');
+const ordersRouter = require('./ordersRouter');
+const ordersDetailsRouter = require('./ordersDetailsRouter');
 const favoritesRouter = require('./favoritesRouter');
 
 
@@ -20,7 +21,8 @@ const mainRouter = Router()
 mainRouter.use('/users', usersRouter);
 mainRouter.use('/categories', categoriesRouter);
 mainRouter.use('/products', productsRouter);
-// mainRouter.use('/orders', ordersRouter);
+mainRouter.use('/orders', ordersRouter);
+mainRouter.use('/ordersDetails', ordersDetailsRouter)
 mainRouter.use('/favorites', favoritesRouter);
 
 //! Rutas para correr en el server
