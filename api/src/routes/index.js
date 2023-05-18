@@ -9,7 +9,7 @@ const productsRouter = require('./productsRouter');
 const ordersRouter = require('./ordersRouter');
 const ordersDetailsRouter = require('./ordersDetailsRouter');
 const favoritesRouter = require('./favoritesRouter');
-
+const paymentsRouter = require('./paymentsRouter');
 
 const mainRouter = Router()
 
@@ -24,6 +24,7 @@ mainRouter.use('/products', productsRouter);
 mainRouter.use('/orders', ordersRouter);
 mainRouter.use('/ordersDetails', ordersDetailsRouter)
 mainRouter.use('/favorites', favoritesRouter);
+mainRouter.use('/payments', paymentsRouter);
 
 //! Rutas para correr en el server
 /*mainRouter.use('/backend/users', usersRouter);
