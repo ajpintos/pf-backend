@@ -48,8 +48,8 @@ const postOrderDetail = async (orderDetail) => {
       status: 'Cart'
     };
     orderDetailAdd = await OrdersDetails.create(detailOrder);
-    order.addOrdersDetails(orderDetailAdd.id);
-    product.addOrdersDetails(orderDetailAdd.id);
+    await order.addOrdersDetails(orderDetailAdd.id);
+    await product.addOrdersDetails(orderDetailAdd.id);
   } else {
     orderDetailAdd = await OrdersDetails.findByPk(orderDetailFound.id);
     const unitsAdd = orderDetailAdd.units + units;
@@ -57,7 +57,7 @@ const postOrderDetail = async (orderDetail) => {
     orderDetailAdd.amount = unitsAdd * product.price;
     orderDetailAdd.taxAmount = (unitsAdd * product.price) * product.tax;
     orderDetailAdd.totalAmount = ((unitsAdd * product.price) * product.tax) + (unitsAdd * product.price);
-    orderDetailAdd.save();
+    await orderDetailAdd.save();
   };
 
   // totales de la orden
@@ -75,7 +75,7 @@ const postOrderDetail = async (orderDetail) => {
   order.amount = tAmount;
   order.taxAmount = tTaxAmount;
   order.totalAmount = tTotalAmount;
-  order.save();
+  await order.save();
 
 
   return orderDetailAdd;
@@ -84,10 +84,10 @@ const postOrderDetail = async (orderDetail) => {
 
 
 const putOrderDetail = async (orderDetail) => {
-  const { orderDetail, units } = orderDetail;
+  const { idDetail, units } = orderDetail;
 
   // busqueda de registros en orders, products y ordersDetails
-  const orderDetailResult = await OrdersDetails.findByPk(orderDetailId);
+  const orderDetailResult = await OrdersDetails.findByPk(idDetail);
   if (orderDetailResult === null) throw Error('Order Detail not found');
   const orderId = orderDetailResult.orderId;
   const order = await Orders.findByPk(orderId);
@@ -101,7 +101,7 @@ const putOrderDetail = async (orderDetail) => {
   orderDetailResult.amount = units * product.price;
   orderDetailResult.taxAmount = (units * product.price) * product.tax;
   orderDetailResult.totalAmount = ((units * product.price) * product.tax) + (units * product.price);
-  orderDetailResult.save();
+  await orderDetailResult.save();
 
   // totales de la orden
   order = await Orders.findByPk(orderId);
@@ -118,7 +118,7 @@ const putOrderDetail = async (orderDetail) => {
   order.amount = tAmount;
   order.taxAmount = tTaxAmount;
   order.totalAmount = tTotalAmount;
-  order.save();
+  await order.save();
 
   return orderDetailResult;
 };
@@ -137,10 +137,29 @@ const deleteOrderDetail = async (idDetail) => {
   const product = await Products.findByPk(productId);
   if (product === null) throw Error('Product not found');
 
+  // remover relaciones
+  await order.removeOrdersDetails(orderDetailResult.id);
+  await product.removeOrdersDetails(orderDetailResult.id);
 
+  // borrar detail
+  await orderDetailResult.destroy();
 
-
-
+  // totales de la orden
+  order = await Orders.findByPk(orderId);
+  getOrDet = await order.getOrdersDetails();
+  let tAmount = 0;
+  let tTaxAmount = 0;
+  let tTotalAmount = 0;
+  for (let i=0; i < getOrDet.length; i++) {
+    const orderDetail = await OrdersDetails.findByPk(getOrDet[i].id);
+    tAmount += orderDetail.amount;
+    tTaxAmount += orderDetail.taxAmount;
+    tTotalAmount += orderDetail.totalAmount;
+  };
+  order.amount = tAmount;
+  order.taxAmount = tTaxAmount;
+  order.totalAmount = tTotalAmount;
+  order.save();
 
   return orderDetailResult;
 };  
