@@ -1,4 +1,4 @@
-const { Users } = require("../db");
+const { Users, Orders } = require("../db");
 
 const createUser = async ( email , password , firstname , lastname , address , cp , city , country , phone ) => {
   const newUser = await Users.findByPk(email);
@@ -34,7 +34,17 @@ const getAllUsersDB = async () => {
 };
 
 const getUser = async ( email ) => {
-  const findUser = await Users.findByPk(email);
+  const findUser = await Users.findByPk(email, {
+    include: [
+      {
+        model: Orders,
+        attributes: ['id'],
+        through: {
+          attributes: [],
+        }
+      }
+    ]
+  });
   if (!findUser) throw Error("User did not found");
   else return findUser;
 }

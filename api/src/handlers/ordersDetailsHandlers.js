@@ -6,7 +6,7 @@ const handlerGetAllOrdersDetails = async ( req , res ) => {
         if (allOrdersDetails.length < 1) throw Error('Orders details not found');
         res.status(200).json(allOrdersDetails);
     } catch (error) {
-        res.status(400).json(error.message);
+        res.status(404).json(error.message);
     }
 };
 
@@ -17,7 +17,7 @@ const handlerGetOrderDetailById = async ( req, res ) => {
         if (orderDetailFound === null) throw Error('Order details not Found');
         res.status(200).json(orderDetailFound);
     } catch (error) {
-        res.status(400).json(error.message);
+        res.status(404).json(error.message);
     }
 }
 
@@ -33,7 +33,7 @@ const handlerPostOrderDetail = async ( req , res ) => {
         if (orderDetailFound === null) throw Error ("Did not create order detail");
         res.status(200).json(orderDetailFound);
     } catch (error) {
-        res.status(400).json(error.message);
+        res.status(404).json(error.message);
     }
 }
 
@@ -42,15 +42,13 @@ const handlerPutOrdersDetails = async ( req, res ) => {
         const body = req.body;
         const orderDetail = {
             idDetail: body.idDetail,
-            idOrder: body.idOrder,
-            idProduct: body.idProduct,
             units: body.units,
         };
         const orderDetailFound = await putOrderDetail(orderDetail);
         if (orderDetailFound === null) throw Error('Could not update order detail');
         res.status(200).json(orderDetailFound);
     } catch (error) {
-        res.status(400).json(error.message);   
+        res.status(404).json(error.message);   
     }
 }
 
@@ -58,12 +56,11 @@ const handlerDeleteOrdersDetails = async ( req, res ) => {
     try {
         const body = req.body;
         const idDetail = body.id;
-        const status = body.status;
         const orderDetailResult = await deleteOrderDetail(idDetail, status);
         if ( orderDetailResult === null) throw Error ('Could not disable order details or order detail not found');
         res.status(200).json(orderDetailResult);    
     } catch (error) {
-        res.status(400).json(error.message);    
+        res.status(404).json(error.message);    
     }
 }
 

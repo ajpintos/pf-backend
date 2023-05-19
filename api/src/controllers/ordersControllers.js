@@ -1,45 +1,47 @@
 const { Orders, OrdersDetails, Users } = require("../db");
 
 const getAllOrders = async () => {
-    return await Orders.findAll( {
-        include : [
-            {
-                model: OrdersDetails,
-                attributes: ['id'],
-                through: {
-                    attributes: [],
-                }
-            },
-            {
-                model: Users,
-                attributes: ['email', 'firstname', 'lastname'],
-                through: {
-                    attributes: [],
-                }
-            }
-        ]
-    });
+    return await Orders.findAll();
+    //     {
+    //     include : [
+    //         {
+    //             model: OrdersDetails,
+    //             attributes: ['id'],
+    //             through: {
+    //                 attributes: [],
+    //             }
+    //         },
+    //         {
+    //             model: Users,
+    //             attributes: ['email', 'firstname', 'lastname'],
+    //             through: {
+    //                 attributes: [],
+    //             }
+    //         }
+    //     ]
+    // });
 };
 
 const getOrderById = async (id) => {
-    return await Orders.findByPk(id, {
-        include : [
-            {
-                model: OrdersDetails,
-                attributes: ['id'],
-                through: {
-                    attributes: [],
-                }
-            },
-            {
-                model: Users,
-                attributes: ['email', 'firstname', 'lastname'],
-                through: {
-                    attributes: [],
-                }
-            }
-        ]
-    });
+    return await Orders.findByPk(id);
+    //     , {
+    //     include : [
+    //         {
+    //             model: OrdersDetails,
+    //             attributes: ['id'],
+    //             through: {
+    //                 attributes: [],
+    //             }
+    //         },
+    //         {
+    //             model: Users,
+    //             attributes: ['email', 'firstname', 'lastname'],
+    //             through: {
+    //                 attributes: [],
+    //             }
+    //         }
+    //     ]
+    // });
 };
 
 const postOrder = async (userId) => {

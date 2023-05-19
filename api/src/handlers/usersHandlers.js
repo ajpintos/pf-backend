@@ -21,7 +21,7 @@ const getUsersHandler = async (req, res) => {
         const userDB = email ? await getUser(email) : await getAllUsersDB();
         res.status(200).json(userDB);
     } catch (error) {
-        res.status(400).json({ error: error.message });
+        res.status(404).json({ error: error.message });
     }
 };
 
