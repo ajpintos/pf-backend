@@ -14,6 +14,7 @@ const loginUser = async ( email , password ) => {
   const user = await Users.findByPk(email);
   if (!user) throw Error ("Incorrect email");
   else if (user.password !== password) throw Error ("Incorrect password");
+  else if (!user.customerStatus) throw Error("User is currently disabled");
   else return user;
 };
 
@@ -24,7 +25,8 @@ const loginUserGoogle = async ( email , firstname , lastname ) => {
     const userType = "common_Google";
     const newUserGoogle = await Users.create({ email , password , firstname , lastname , userType });
     return newUserGoogle;
-  } else return user;
+  } else if (!user.customerStatus) throw Error("User is currently disabled");
+  else return user;
 };
 
 const getAllUsersDB = async () => {
@@ -49,7 +51,7 @@ const getUser = async ( email ) => {
   else return findUser;
 }
 
-const updateUserDB = async ( email , password , firstname , lastname , address , cp , city , phone ) => {
+const updateUserDB = async ( email , password , firstname , lastname , address , cp , city , country , phone ) => {
   const userDB = await Users.findByPk(email)
   if (userDB === null) return null;
   await userDB.update({
@@ -59,6 +61,7 @@ const updateUserDB = async ( email , password , firstname , lastname , address ,
     address,
     cp,
     city,
+    country,
     phone
   });
   await userDB.save();
