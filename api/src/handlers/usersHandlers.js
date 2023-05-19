@@ -40,7 +40,7 @@ const loginUserHandler = async (req, res) => {
 //Handler para loguearse con la auth de Google
 
 const loginUserGoogleHandler = async (req, res) => {
-    const { email , firstname , lastname } = req.query;
+    const { email , firstname , lastname } = req.body;
     try {
         const userGoogle = await loginUserGoogle( email , firstname , lastname );
         res.status(200).send(userGoogle);
