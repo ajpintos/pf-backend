@@ -28,9 +28,9 @@ const getUsersHandler = async (req, res) => {
 //Handler para loguear con el usuario y contraseña de la DB
 
 const loginUserHandler = async (req, res) => {
-    const { email , password } = req.query;
+    const { email , password } = req.body;
     try {
-        const user = await loginUser(email, password);
+        const user = await loginUser( email , password );
         if (user) res.status(200).send(user);
     } catch (error) {
         res.status(400).json({ error : error.message});
