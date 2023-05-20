@@ -52,9 +52,9 @@ const loginUserGoogleHandler = async (req, res) => {
 //Handler para modificar datos del usuario en la DB
 
 const updateUserDBHandler = async (req,res) => {
-    const { email , password , firstname , lastname , address , cp , city , country , phone } = req.body;
+    const { email , password , firstname , lastname , address , cp , city , country , phone, customerStatus } = req.body;
     try {
-        const userUpdate = await updateUserDB( email , password , firstname , lastname , address , cp , city , country , phone );
+        const userUpdate = await updateUserDB( email , password , firstname , lastname , address , cp , city , country , phone, customerStatus );
         res.status(201).json(userUpdate);
     } catch (error) {
         res.status(400).json({ error : error.message});
