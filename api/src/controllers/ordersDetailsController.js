@@ -159,7 +159,7 @@ const deleteOrderDetail = async (idDetail) => {
   order.amount = tAmount;
   order.taxAmount = tTaxAmount;
   order.totalAmount = tTotalAmount;
-  order.save();
+  await order.save();
 
   return orderDetailResult;
 };  

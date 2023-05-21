@@ -49,7 +49,7 @@ const clearOrder = async (orderId) => {
     orderClear.amount = tAmount;
     orderClear.taxAmount = tTaxAmount;
     orderClear.totalAmount = tTotalAmount;
-    orderClear.save();
+    await orderClear.save();
     return orderDelete;
 };
 
