@@ -2,7 +2,7 @@ const { Router } = require('express');
 
 // Requerir todos los handlers
 // ejemplo: const handlerOrders = require('../handlers/handlerOrders)
-const { handlerGetAllOrders, handlerPostOrder, handlerPutOrders, handlerDeleteOrders, handlerGetOrderById } = require("../handlers/ordersHandlers.js")
+const { handlerGetAllOrders, handlerPostOrder, handlerDeleteOrders, handlerGetOrderById, handlerClearOrders } = require("../handlers/ordersHandlers.js")
 
 
 // Requerir todos los middlewares para validar datos
@@ -19,9 +19,8 @@ const ordersRouter = Router();
 ordersRouter.get("/", handlerGetAllOrders);
 ordersRouter.get('/:orderId', handlerGetOrderById);
 ordersRouter.post("/", handlerPostOrder);
-ordersRouter.put('/', handlerPutOrders);
 ordersRouter.delete('/',handlerDeleteOrders);
-
+ordersRouter.delete('/:orderId',handlerClearOrders);
 
 
 

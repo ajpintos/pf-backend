@@ -1,47 +1,11 @@
-const { Orders, OrdersDetails, Users } = require("../db");
+const { Orders, OrdersDetails, Users, Products } = require("../db");
 
 const getAllOrders = async () => {
     return await Orders.findAll();
-    //     {
-    //     include : [
-    //         {
-    //             model: OrdersDetails,
-    //             attributes: ['id'],
-    //             through: {
-    //                 attributes: [],
-    //             }
-    //         },
-    //         {
-    //             model: Users,
-    //             attributes: ['email', 'firstname', 'lastname'],
-    //             through: {
-    //                 attributes: [],
-    //             }
-    //         }
-    //     ]
-    // });
 };
 
 const getOrderById = async (id) => {
     return await Orders.findByPk(id);
-    //     , {
-    //     include : [
-    //         {
-    //             model: OrdersDetails,
-    //             attributes: ['id'],
-    //             through: {
-    //                 attributes: [],
-    //             }
-    //         },
-    //         {
-    //             model: Users,
-    //             attributes: ['email', 'firstname', 'lastname'],
-    //             through: {
-    //                 attributes: [],
-    //             }
-    //         }
-    //     ]
-    // });
 };
 
 const postOrder = async (userId) => {
@@ -51,50 +15,48 @@ const postOrder = async (userId) => {
         orderStatus: 'Cart',
     });
     if (orderResult === null) return null;
-    userFound.addOrder(orderResult.id);
+    await userFound.addOrder(orderResult.id);
     return orderResult;
 }
 
-const putOrder = async ({ id, amount, taxAmount, totalAmount, orderStatus }) => {
-    const orderPut = await Orders.findByPk(id, {
-        include : [{
-            model: OrdersDetails,
-            attributes: ['id', 'name'],
-            through: {
-                attributes: [],
-            }
-        }]});
-    if (orderPut === null) return null;
-    orderPut.amount =  amount;
-    orderPut.taxAmount =  taxAmount;
-    orderPut.totalAmount =  totalAmount;
-    orderPut.orderStatus =  orderStatus;
-    orderPut.save();
-
-    return orderPut;
-};
-
 const deleteOrder = async (idOrder, status) => {
-    const orderDelete = await Orders.findByPk(idOrder, {
-        include : [{
-            model: OrdersDetails,
-            attributes: ['id', 'name'],
-            through: {
-                attributes: [],
-            }
-        }]});
+    const orderDelete = await Orders.findByPk(idOrder);
     if (orderDelete === null) return null;
     orderDelete.orderStatus = status;
-    orderDelete.save();
+    await orderDelete.save();
+    const ordersDetailsFound = await Orders.getOrdersDetials();
+    for (let i=0; i< ordersDetailsFound; i++) {
+        const orderD = await OrdersDetails.findByPk(ordersDetailsFound.id);
+        orderD.orderStatus = status;
+        await orderD.save();
+    }
     return orderDelete;
 };
 
-
+const clearOrder = async (orderId) => {
+    const orderClear = await Orders.findByPk(orderId);
+    if (orderClear === null) return null;
+    const ordersDetailsFound = await Orders.getOrdersDetials();
+    for (let i=0; i< ordersDetailsFound; i++) {
+        const orderD = await OrdersDetails.findByPk(ordersDetailsFound.id);
+        const productId = ordersDetailsFound.productId;
+        const product = await Products.findByPk(productId);
+        if (product === null) throw Error('Product not found');
+        await orderClear.removeOrdersDetails(ordersDetailsFound.id);
+        await product.removeOrdersDetails(ordersDetailsFound.id);
+        await orderD.destroy();
+    };
+    orderClear.amount = tAmount;
+    orderClear.taxAmount = tTaxAmount;
+    orderClear.totalAmount = tTotalAmount;
+    orderClear.save();
+    return orderDelete;
+};
 
 module.exports = {
     getAllOrders,
     getOrderById,
     postOrder,
-    putOrder,
     deleteOrder,
-}
+    clearOrder,
+};
