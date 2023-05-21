@@ -51,7 +51,7 @@ const getUser = async ( email ) => {
   else return findUser;
 }
 
-const updateUserDB = async ( email , password , firstname , lastname , address , cp , city , country , phone ) => {
+const updateUserDB = async ( email , password , firstname , lastname , address , cp , city , country , phone, customerStatus, adminType ) => {
   const userDB = await Users.findByPk(email)
   if (userDB === null) return null;
   await userDB.update({
@@ -62,7 +62,9 @@ const updateUserDB = async ( email , password , firstname , lastname , address ,
     cp,
     city,
     country,
-    phone
+    phone,
+    customerStatus,
+    adminType
   });
   await userDB.save();
   return userDB;
