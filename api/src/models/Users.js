@@ -52,6 +52,10 @@ module.exports = (sequelize) => {
       userType: {
         type: DataTypes.STRING(50),
       },
+      adminType: {
+          type: DataTypes.BOOLEAN,
+          defaultValue: false,
+      },
       updated: {
         type: DataTypes.DATE,
         defaultValue: DataTypes.NOW,
