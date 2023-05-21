@@ -9,17 +9,20 @@ module.exports = (sequelize) => {
     },
     amount: {
       type: DataTypes.FLOAT,
+      defaultValue: 0,
     },
     taxAmount: {
       //! Aca debería ir una FK
       type: DataTypes.FLOAT,
+      defaultValue: 0,
     },
     totalAmount: {
       type: DataTypes.FLOAT,
+      defaultValue: 0,
     },
     orderStatus: {
-      type: DataTypes.STRING(50),
-      defaultValue: true,
+      type: DataTypes.STRING(6),
+      defaultValue: 'Cart',
     },
     updated: {
       type: DataTypes.DATE,

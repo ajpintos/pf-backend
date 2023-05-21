@@ -21,16 +21,16 @@ const getUsersHandler = async (req, res) => {
         const userDB = email ? await getUser(email) : await getAllUsersDB();
         res.status(200).json(userDB);
     } catch (error) {
-        res.status(400).json({ error: error.message });
+        res.status(404).json({ error: error.message });
     }
 };
 
 //Handler para loguear con el usuario y contraseña de la DB
 
 const loginUserHandler = async (req, res) => {
-    const { email , password } = req.query;
+    const { email , password } = req.body;
     try {
-        const user = await loginUser(email, password);
+        const user = await loginUser( email , password );
         if (user) res.status(200).send(user);
     } catch (error) {
         res.status(400).json({ error : error.message});
@@ -40,7 +40,7 @@ const loginUserHandler = async (req, res) => {
 //Handler para loguearse con la auth de Google
 
 const loginUserGoogleHandler = async (req, res) => {
-    const { email , firstname , lastname } = req.query;
+    const { email , firstname , lastname } = req.body;
     try {
         const userGoogle = await loginUserGoogle( email , firstname , lastname );
         res.status(200).send(userGoogle);
@@ -52,9 +52,9 @@ const loginUserGoogleHandler = async (req, res) => {
 //Handler para modificar datos del usuario en la DB
 
 const updateUserDBHandler = async (req,res) => {
-    const { email , password , firstname , lastname , address , cp , city , country , phone } = req.body;
+    const { email , password , firstname , lastname , address , cp , city , country , phone, customerStatus, adminType } = req.body;
     try {
-        const userUpdate = await updateUserDB( email , password , firstname , lastname , address , cp , city , country , phone );
+        const userUpdate = await updateUserDB( email , password , firstname , lastname , address , cp , city , country , phone, customerStatus, adminType );
         res.status(201).json(userUpdate);
     } catch (error) {
         res.status(400).json({ error : error.message});

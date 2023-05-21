@@ -1,53 +1,62 @@
-const { Orders } = require("../db");
+const { Orders, OrdersDetails, Users, Products } = require("../db");
 
-const getAllUsersOrders = async () => {
-    const allOrders = await Orders.findAll();
-    if (!allOrders) throw Error ("Did not found users in DB")
-    else return allOrders;
+const getAllOrders = async () => {
+    return await Orders.findAll();
 };
 
-const createOrder = async (id, amount, taxAmount, totalAmount, orderStatus) => {
-    const order = await Orders.create({
-        id,
-        amount,
-        taxAmount,
-        totalAmount,
-        orderStatus
+const getOrderById = async (id) => {
+    return await Orders.findByPk(id);
+};
+
+const postOrder = async (userId) => {
+    const userFound = await Users.findByPk(userId);
+    if (userFound === null) throw Error('User not found');
+    const orderResult = await Orders.create({
+        orderStatus: 'Cart',
     });
-    if (!order) throw Error ("Did not create order in DB")
-    else return order;
+    if (orderResult === null) return null;
+    await userFound.addOrder(orderResult.id);
+    return orderResult;
 }
 
-const updateOrder = async (id, amount, taxAmount, totalAmount, orderStatus) => {
-    const order = await Orders.update({
-        id,
-        amount,
-        taxAmount,
-        totalAmount,
-        orderStatus
-    });
-    if (!order) throw Error ("Did not update order in DB")
-    else return order;
+const deleteOrder = async (idOrder, status) => {
+    const orderDelete = await Orders.findByPk(idOrder);
+    if (orderDelete === null) return null;
+    orderDelete.orderStatus = status;
+    await orderDelete.save();
+    const ordersDetailsFound = await Orders.getOrdersDetials();
+    for (let i=0; i< ordersDetailsFound; i++) {
+        const orderD = await OrdersDetails.findByPk(ordersDetailsFound.id);
+        orderD.orderStatus = status;
+        await orderD.save();
+    }
+    return orderDelete;
 };
 
-const updateOrderStatus = async (id, orderStatus) => {
-    let orderUpdate = await Orders.findByPk(id);
-    if (orderUpdate === null) return null;
-    orderUpdate.status = orderStatus;
-    orderUpdate.save();
-    return orderUpdate;
-};
-
-const findOrderById = async (id) => {
-    const order = await Orders.findByPk(id);
-    if (!order) throw Error ("Did not found order in DB")
-    else return order;
+const clearOrder = async (orderId) => {
+    const orderClear = await Orders.findByPk(orderId);
+    if (orderClear === null) return null;
+    const ordersDetailsFound = await Orders.getOrdersDetials();
+    for (let i=0; i< ordersDetailsFound; i++) {
+        const orderD = await OrdersDetails.findByPk(ordersDetailsFound.id);
+        const productId = ordersDetailsFound.productId;
+        const product = await Products.findByPk(productId);
+        if (product === null) throw Error('Product not found');
+        await orderClear.removeOrdersDetails(ordersDetailsFound.id);
+        await product.removeOrdersDetails(ordersDetailsFound.id);
+        await orderD.destroy();
+    };
+    orderClear.amount = tAmount;
+    orderClear.taxAmount = tTaxAmount;
+    orderClear.totalAmount = tTotalAmount;
+    await orderClear.save();
+    return orderDelete;
 };
 
 module.exports = {
-    getAllUsersOrders,
-    createOrder,
-    updateOrder,
-    updateOrderStatus,
-    findOrderById
-}
+    getAllOrders,
+    getOrderById,
+    postOrder,
+    deleteOrder,
+    clearOrder,
+};

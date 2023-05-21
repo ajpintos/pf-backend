@@ -12,14 +12,14 @@ const usersRouter = Router();
 // ejemplo: usersRouter.get('/users', helperUser, handlerUser)
 usersRouter.get("/", getUsersHandler);
 
-//Get router para el inicio de sesión
-usersRouter.get("/login", loginUserHandler);
-
-//Get router para el inicio de sesión con google
-usersRouter.get("/login/google", loginUserGoogleHandler);
-
 //Post router para la creación del usuario
 usersRouter.post("/", postUserHandler);
+
+//Post router para el inicio de sesión por usuario en la DB
+usersRouter.post("/login", loginUserHandler);
+
+//Post router para el inicio de sesión con google
+usersRouter.post("/login/google", loginUserGoogleHandler);
 
 //Put router para modificar los datos del usuario
 usersRouter.put("/", updateUserDBHandler);

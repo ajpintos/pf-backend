@@ -1,4 +1,4 @@
-const { Users } = require("../db");
+const { Users, Orders } = require("../db");
 
 const createUser = async ( email , password , firstname , lastname , address , cp , city , country , phone ) => {
   const newUser = await Users.findByPk(email);
@@ -14,6 +14,7 @@ const loginUser = async ( email , password ) => {
   const user = await Users.findByPk(email);
   if (!user) throw Error ("Incorrect email");
   else if (user.password !== password) throw Error ("Incorrect password");
+  else if (!user.customerStatus) throw Error("User is currently disabled");
   else return user;
 };
 
@@ -24,7 +25,8 @@ const loginUserGoogle = async ( email , firstname , lastname ) => {
     const userType = "common_Google";
     const newUserGoogle = await Users.create({ email , password , firstname , lastname , userType });
     return newUserGoogle;
-  } else return user;
+  } else if (!user.customerStatus) throw Error("User is currently disabled");
+  else return user;
 };
 
 const getAllUsersDB = async () => {
@@ -34,12 +36,22 @@ const getAllUsersDB = async () => {
 };
 
 const getUser = async ( email ) => {
-  const findUser = await Users.findByPk(email);
+  const findUser = await Users.findByPk(email, {
+    include: [
+      {
+        model: Orders,
+        attributes: ['id'],
+        through: {
+          attributes: [],
+        }
+      }
+    ]
+  });
   if (!findUser) throw Error("User did not found");
   else return findUser;
 }
 
-const updateUserDB = async ( email , password , firstname , lastname , address , cp , city , phone ) => {
+const updateUserDB = async ( email , password , firstname , lastname , address , cp , city , country , phone, customerStatus, adminType ) => {
   const userDB = await Users.findByPk(email)
   if (userDB === null) return null;
   await userDB.update({
@@ -49,7 +61,10 @@ const updateUserDB = async ( email , password , firstname , lastname , address ,
     address,
     cp,
     city,
-    phone
+    country,
+    phone,
+    customerStatus,
+    adminType
   });
   await userDB.save();
   return userDB;

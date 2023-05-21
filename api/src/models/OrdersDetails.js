@@ -21,8 +21,8 @@ module.exports = (sequelize) => {
       type: DataTypes.FLOAT,
     },
     orderStatus: {
-      type: DataTypes.STRING(50),
-      defaultValue: true,
+      type: DataTypes.STRING(6),
+      defaultValue: 'Cart',
     },
     updated: {
       type: DataTypes.DATE,

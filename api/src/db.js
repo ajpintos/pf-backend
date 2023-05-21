@@ -36,13 +36,11 @@ const { Users, Products, Categories, Ratings, Favorites, Orders, OrdersDetails, 
 // // Aca vendrían las relaciones
 
 Users.belongsToMany(Orders, {through: "usersOrders"});
-Orders.hasOne(Users);
+Orders.belongsToMany(Users, {through: "usersOrders"});
 
 Users.belongsToMany(Ratings, {through: "usersRatings"});
 Ratings.belongsToMany(Users, {through: "usersRatings"});
 
-// Users.belongsToMany(Favorites, {through: "usersFavorites"});
-// Favorites.belongsToMany(Users, {through: "usersFavorites"});
 Users.hasOne(Favorites);
 Favorites.belongsTo(Users);
 
@@ -53,23 +51,20 @@ Ratings.belongsToMany(Products, {through: "productsRatings"});
 Products.belongsToMany(Categories, {through: "productsCategories"});
 Categories.belongsToMany(Products, {through: "productsCategories"});
 
-// Products.belongsToMany(Favorites, {through: "productsFavorites"});
-// Favorites.belongsToMany(Products, {through: "productsFavorites"});
 Products.hasOne(Favorites);
 Favorites.belongsTo(Products);
 
+Orders.hasMany(OrdersDetails);
+OrdersDetails.belongsTo(Orders);
 
-Products.belongsToMany(OrdersDetails, {through: "productsOrdersDetails"});
-OrdersDetails.belongsToMany(Products, {through: "productsOrdersDetails"});
-
-Orders.hasOne(OrdersDetails);
-OrdersDetails.hasOne(Orders);
-
-Orders.hasOne(Deliveries);
-Deliveries.belongsToMany(Orders, {through: "ordersDeliveries"});
+Orders.hasMany(Deliveries);
+Deliveries.hasOne(Orders);
 
 OrdersDetails.hasOne(Deliveries);
 Deliveries.belongsToMany(OrdersDetails, {through: "ordersDetails.Deliveries"});
+
+Products.hasMany(OrdersDetails);
+OrdersDetails.belongsTo(Products);
 
 Orders.hasOne(Payments);
 Payments.belongsToMany(Orders, {through: "ordersPayments"});
