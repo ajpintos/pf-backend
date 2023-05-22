@@ -1,4 +1,4 @@
-const { createUser , getAllUsersDB, loginUser , updateUserDB, loginUserGoogle, getUser } = require("../controllers/usersControllers.js")
+const { createUser , getAllUsersDB, loginUser , updateUserDB, loginUserGoogle, getUser,deleteUserDB } = require("../controllers/usersControllers.js")
 
 //Handler para crear un usuario mediante el formulario del front
 
@@ -61,6 +61,16 @@ const updateUserDBHandler = async (req,res) => {
     }
 };
 
+const deleteUserHandler =async (req,res)=>{
+  const {email,status} = req.body
+  try {
+    const userDelete = await deleteUserDB(email,status) 
+    if(userDelete)res.status(200).send("operacion exitosa")
+  } catch (error) {
+    res.status(400).send("se encontro un error" + error.message)
+  }
+}
+
 // const getUserOrders = async (req, res) => {
 //     const { userEmail } = req.body;
 //     try {
@@ -76,5 +86,6 @@ module.exports = {
     getUsersHandler,
     loginUserHandler,
     loginUserGoogleHandler,
-    updateUserDBHandler
+    updateUserDBHandler,
+    deleteUserHandler
 };

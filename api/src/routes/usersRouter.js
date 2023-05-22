@@ -3,7 +3,7 @@ const { Router } = require("express");
 
 // ejemplo: const handlerUsers = require('../handlers/handlerUsers)
 // Requerir todos los middlewares para validar datos
-const { getUsersHandler , postUserHandler , loginUserHandler , updateUserDBHandler, loginUserGoogleHandler } = require("../handlers/usersHandlers.js");
+const { getUsersHandler , postUserHandler , loginUserHandler , updateUserDBHandler, loginUserGoogleHandler,deleteUserHandler } = require("../handlers/usersHandlers.js");
 
 // ejemplo: const helperUsers = require('../helpers/handlerUsers)
 
@@ -23,6 +23,8 @@ usersRouter.post("/login/google", loginUserGoogleHandler);
 
 //Put router para modificar los datos del usuario
 usersRouter.put("/", updateUserDBHandler);
+
+usersRouter.delete("/delete",deleteUserHandler)
 
 /*usersRouter.get("/userOrders") */
 // usersRouter.get("/userOrders", getUserOrders);

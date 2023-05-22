@@ -35,10 +35,19 @@ const deleteCategorieController = async (idCategorie, active) => {
     return deleteCategorie;
 }
 
+const putCategorieController = async (id,name,description)=>{
+    let putCategorie = await Categories.findByPk(id)
+    putCategorie.name = name
+    putCategorie.description = description
+    putCategorie.save()
+    return putCategorie
+}
+
 module.exports = {
     getAllCategoriesHelpers,
     getAllCategoriesController,
     getCategorieByIdController,
     postCategorieController,
-    deleteCategorieController
+    deleteCategorieController,
+    putCategorieController
 }

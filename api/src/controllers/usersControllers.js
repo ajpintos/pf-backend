@@ -70,6 +70,14 @@ const updateUserDB = async ( email , password , firstname , lastname , address ,
   return userDB;
 };
 
+const deleteUserDB = async(email,status)=>{
+  const userDB = await Users.findByPk(email)
+  console.log(userDB);
+  userDB.customerStatus = status
+  userDB.save()
+  return userDB
+}
+
 // const getUserOrdersDB = async (userEmail) => {
   //   const user = await Users.findByPk(userEmail, {
     //     include: {
@@ -86,5 +94,6 @@ module.exports = {
   loginUserGoogle,
   getAllUsersDB,
   getUser,
-  updateUserDB 
+  updateUserDB,
+  deleteUserDB 
 };
