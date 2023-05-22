@@ -56,6 +56,10 @@ module.exports = (sequelize) => {
           type: DataTypes.BOOLEAN,
           defaultValue: false,
       },
+      token: {
+        type: DataTypes.UUID,
+        defaultValue: DataTypes.UUIDV1,
+      },
       updated: {
         type: DataTypes.DATE,
         defaultValue: DataTypes.NOW,
