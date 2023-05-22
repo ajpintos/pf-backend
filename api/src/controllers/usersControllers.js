@@ -1,10 +1,10 @@
 const { Users, Orders } = require("../db");
 
-const createUser = async ( email , password , firstname , lastname , address , cp , city , country , phone ) => {
+const createUser = async ( email , password , firstname , lastname , address , cp , city , country , phone ,adminType) => {
   const newUser = await Users.findByPk(email);
   if (!newUser) {
       const userType = "common_DB"
-      await Users.create({ email , password , firstname ,  lastname , address , cp , city , country , phone , userType })
+      await Users.create({ email , password , firstname ,  lastname , address , cp , city , country , phone , userType, adminType })
       return "User Created succesfully";
   } else throw Error ("Email already exist");
 };

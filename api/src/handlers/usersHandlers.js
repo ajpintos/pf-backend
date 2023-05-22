@@ -3,9 +3,9 @@ const { createUser , getAllUsersDB, loginUser , updateUserDB, loginUserGoogle, g
 //Handler para crear un usuario mediante el formulario del front
 
 const postUserHandler = async (req, res) => {
-    const { email , password , firstname , lastname , address , cp , city , country , phone } = req.body;
+    const { email , password , firstname , lastname , address , cp , city , country , phone,adminType } = req.body;
     try {
-        const newUser = await createUser( email , password , firstname , lastname , address , cp , city , country , phone )
+        const newUser = await createUser( email , password , firstname , lastname , address , cp , city , country , phone ,adminType)
         res.status(200).send(newUser);
     } catch (error) {
         res.status(400).json({ error : error.message });
