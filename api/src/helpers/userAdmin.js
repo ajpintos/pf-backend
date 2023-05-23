@@ -8,6 +8,7 @@ const adminBioFresh = {
     city: "Buenos Aires",
     country: "Argentina",
     phone: "3007476099",
+    userType: "ADMIN",
     adminType: true
 };
 
