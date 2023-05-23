@@ -1,9 +1,26 @@
 const { Users, Orders } = require("../db");
 const { adminBioFresh } = require("../helpers/userAdmin.js");
 
+// crea el admin por defecto en la base de datos
+
 const createAdmin = async () => {
   return await Users.create(adminBioFresh);
-}
+};
+
+//función para determinar que datos vamos a mandar al front del usuario que utilizaremos
+
+const infoUser = (data) => {
+  return {
+    email: data.email,
+    firstname: data.firstname,
+    lastname: data.lastname,
+    address: data.address,
+    cp: data.cp,
+    city: data.city,
+    country: data.country,
+    phone: data.phone
+  }
+};
 
 const createUser = async ( email , password , firstname , lastname , address , cp , city , country , phone ,adminType) => {
   const newUser = await Users.findByPk(email);
@@ -20,7 +37,7 @@ const loginUser = async ( email , password ) => {
   if (!user) throw Error ("Incorrect email");
   else if (user.password !== password) throw Error ("Incorrect password");
   else if (!user.customerStatus) throw Error("User is currently disabled");
-  else return user;
+  else return infoUser(user);
 };
 
 const loginUserGoogle = async ( email , firstname , lastname ) => {
@@ -31,7 +48,7 @@ const loginUserGoogle = async ( email , firstname , lastname ) => {
     const newUserGoogle = await Users.create({ email , password , firstname , lastname , userType });
     return newUserGoogle;
   } else if (!user.customerStatus) throw Error("User is currently disabled");
-  else return user;
+  else return infoUser(user);
 };
 
 const getAllUsersDB = async () => {
@@ -72,7 +89,7 @@ const updateUserDB = async ( email , password , firstname , lastname , address ,
     adminType
   });
   await userDB.save();
-  return userDB;
+  return infoUser(userDB);
 };
 
 const updateUserPasswordDB = async ( email , token , password ) => {
