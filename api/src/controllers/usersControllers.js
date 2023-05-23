@@ -1,4 +1,9 @@
 const { Users, Orders } = require("../db");
+const { adminBioFresh } = require("../helpers/userAdmin.js");
+
+const createAdmin = async () => {
+  return await Users.create(adminBioFresh);
+}
 
 const createUser = async ( email , password , firstname , lastname , address , cp , city , country , phone ,adminType) => {
   const newUser = await Users.findByPk(email);
@@ -107,5 +112,6 @@ module.exports = {
   getUser,
   updateUserDB,
   deleteUserDB,
-  updateUserPasswordDB 
+  updateUserPasswordDB,
+  createAdmin 
 };
