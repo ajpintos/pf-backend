@@ -70,6 +70,17 @@ const updateUserDB = async ( email , password , firstname , lastname , address ,
   return userDB;
 };
 
+const updateUserPasswordDB = async ( email , token , password ) => {
+  const user = await Users.findByPk(email);
+  if (user === null) throw Error ("User did not found");
+  else if (user.token !== token) throw Error("Token is not equal");
+  else {
+    await user.update({ password });
+    await user.save();
+    return "Password changed uccessfully"
+  }
+}
+
 const deleteUserDB = async(email,status)=>{
   const userDB = await Users.findByPk(email)
   console.log(userDB);
@@ -95,5 +106,6 @@ module.exports = {
   getAllUsersDB,
   getUser,
   updateUserDB,
-  deleteUserDB 
+  deleteUserDB,
+  updateUserPasswordDB 
 };
