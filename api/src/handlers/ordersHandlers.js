@@ -47,7 +47,7 @@ const handlerDeleteOrders = async ( req, res ) => {
 
 const handlerClearOrders = async ( req, res ) => {
     try {
-        const orderId = body.orderId;
+        const orderId = req.params.orderId;
         const orderResult = await clearOrder(orderId);
         if ( orderResult === null) throw Error ('Could not clear order or order not found');
         res.status(200).json(orderResult);    

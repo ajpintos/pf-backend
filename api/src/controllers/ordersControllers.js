@@ -36,21 +36,25 @@ const deleteOrder = async (idOrder, status) => {
 const clearOrder = async (orderId) => {
     const orderClear = await Orders.findByPk(orderId);
     if (orderClear === null) return null;
-    const ordersDetailsFound = await Orders.getOrdersDetials();
-    for (let i=0; i< ordersDetailsFound; i++) {
-        const orderD = await OrdersDetails.findByPk(ordersDetailsFound.id);
-        const productId = ordersDetailsFound.productId;
+    const ordersDetailsFound = await OrdersDetails.findAll({
+        where : {
+            orderId: orderId
+        }
+    });
+    for (let i=0; i< ordersDetailsFound.length; i++) {
+        const orderD = await OrdersDetails.findByPk(ordersDetailsFound[i].id);
+        const productId = orderD.productId;
         const product = await Products.findByPk(productId);
         if (product === null) throw Error('Product not found');
-        await orderClear.removeOrdersDetails(ordersDetailsFound.id);
-        await product.removeOrdersDetails(ordersDetailsFound.id);
+        await orderClear.removeOrdersDetails(orderD.id);
+        await product.removeOrdersDetails(orderD.id);
         await orderD.destroy();
     };
-    orderClear.amount = tAmount;
-    orderClear.taxAmount = tTaxAmount;
-    orderClear.totalAmount = tTotalAmount;
+    orderClear.amount = 0;
+    orderClear.taxAmount = 0;
+    orderClear.totalAmount = 0;
     await orderClear.save();
-    return orderDelete;
+    return orderClear;
 };
 
 module.exports = {

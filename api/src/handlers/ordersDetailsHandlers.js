@@ -40,12 +40,10 @@ const handlerPostOrderDetail = async ( req , res ) => {
 const handlerPutOrdersDetails = async ( req, res ) => {
     try {
         const body = req.body;
-        console.log('body en handlerputordersDetails ', body);
         const orderDetail = {
             idDetail: body.idDetail,
             units: body.units,
         };
-        console.log('orderDetail en put orderDetails :', orderDetail);
         const orderDetailFound = await putOrderDetail(orderDetail);
         if (orderDetailFound === null) throw Error('Could not update order detail');
         res.status(200).json(orderDetailFound);
@@ -58,10 +56,7 @@ const handlerDeleteOrdersDetails = async ( req, res ) => {
     try {
         const body = req.body;
         const idDetail = body.idDetail;
-        console.log('idDetail en back ', idDetail
-        );
         const orderDetailResult = await deleteOrderDetail(idDetail);
-        console.log('orderDetailResult en HandlerDetail ',orderDetailResult);
         if ( orderDetailResult === null) throw Error ('Could not disable order details or order detail not found');
         res.status(200).json(orderDetailResult);    
     } catch (error) {

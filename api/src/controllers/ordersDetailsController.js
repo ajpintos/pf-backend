@@ -60,23 +60,7 @@ const postOrderDetail = async (orderDetail) => {
     await orderDetailAdd.save();
   };
 
-  // totales de la orden
-  order = await Orders.findByPk(idOrder);
-  getOrDet = await order.getOrdersDetails();
-  let tAmount = 0;
-  let tTaxAmount = 0;
-  let tTotalAmount = 0;
-  for (let i=0; i < getOrDet.length; i++) {
-    const orderDetail = await OrdersDetails.findByPk(getOrDet[i].id);
-    tAmount += orderDetail.amount;
-    tTaxAmount += orderDetail.taxAmount;
-    tTotalAmount += orderDetail.totalAmount;
-  };
-  order.amount = tAmount;
-  order.taxAmount = tTaxAmount;
-  order.totalAmount = tTotalAmount;
-  await order.save();
-
+  await totalsOrder(idOrder);
 
   return orderDetailAdd;
 };
@@ -89,40 +73,21 @@ const putOrderDetail = async (orderDetail) => {
   // busqueda de registros en orders, products y ordersDetails
   const orderDetailResult = await OrdersDetails.findByPk(idDetail);
   if (orderDetailResult === null) throw Error('Order Detail not found');
-  console.log('llegue a detalle');
   const orderId = orderDetailResult.orderId;
   const order = await Orders.findByPk(orderId);
   if (order === null) throw Error('Order not found');
-  console.log('llegue a order');
   const productId = orderDetailResult.productId;
   const product = await Products.findByPk(productId);
   if (product === null) throw Error('Product not found');
-  console.log('llegue a product');
 
   // asignar nuevos valores
   orderDetailResult.units = units;
   orderDetailResult.amount = units * product.price;
   orderDetailResult.taxAmount = (units * product.price) * product.tax;
   orderDetailResult.totalAmount = ((units * product.price) * product.tax) + (units * product.price);
-  console.log('el orderDetailResult ', orderDetailResult);
   await orderDetailResult.save();
 
-  // totales de la orden
-  // order = await Orders.findByPk(orderId);
-  // getOrDet = await order.getOrdersDetails();
-  // let tAmount = 0;
-  // let tTaxAmount = 0;
-  // let tTotalAmount = 0;
-  // for (let i=0; i < getOrDet.length; i++) {
-  //   const orderDetail = await OrdersDetails.findByPk(getOrDet[i].id);
-  //   tAmount += orderDetail.amount;
-  //   tTaxAmount += orderDetail.taxAmount;
-  //   tTotalAmount += orderDetail.totalAmount;
-  // };
-  // order.amount = tAmount;
-  // order.taxAmount = tTaxAmount;
-  // order.totalAmount = tTotalAmount;
-  // await order.save();
+  await totalsOrder(orderId);
 
   return orderDetailResult;
 };
@@ -149,28 +114,28 @@ const deleteOrderDetail = async (idDetail) => {
   // borrar detail
   await orderDetailResult.destroy();
 
-  // totales de la orden
-  // order = await Orders.findByPk(orderId);
-  // getOrDet = await order.getOrdersDetails();
-  // console.log('getOrDet ',getOrDet);
-  // let tAmount = 0;
-  // let tTaxAmount = 0;
-  // let tTotalAmount = 0;
-  // for (let i=0; i < getOrDet.length; i++) {
-  //   const orderDetail = await OrdersDetails.findByPk(getOrDet[i].id);
-  //   tAmount += orderDetail.amount;
-  //   tTaxAmount += orderDetail.taxAmount;
-  //   tTotalAmount += orderDetail.totalAmount;
-  // };
-  // order.amount = tAmount;
-  // order.taxAmount = tTaxAmount;
-  // order.totalAmount = tTotalAmount;
-  // console.log('order en back despues de borar detalle ',order);
-  // await order.save();
+  await totalsOrder(orderId);
 
-  console.log('resultOrderDetail en controller ', resultOrderDetail);
   return resultOrderDetail;
 };  
+
+const totalsOrder = async (orderId) => {
+  const order = await Orders.findByPk(orderId);
+  getOrDet = await order.getOrdersDetails();
+  let tAmount = 0;
+  let tTaxAmount = 0;
+  let tTotalAmount = 0;
+  for (let i=0; i < getOrDet.length; i++) {
+    const orderDetail = await OrdersDetails.findByPk(getOrDet[i].id);
+    tAmount += orderDetail.amount;
+    tTaxAmount += orderDetail.taxAmount;
+    tTotalAmount += orderDetail.totalAmount;
+  };
+  order.amount = tAmount;
+  order.taxAmount = tTaxAmount;
+  order.totalAmount = tTotalAmount;
+  await order.save();  
+};
 
 module.exports = {
   getAllOrdersDetails,
