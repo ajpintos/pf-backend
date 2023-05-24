@@ -4,9 +4,9 @@ const adminBioFresh = {
     firstname: "BioFresh",
     lastname: "Company",
     address: "Carrera 23-42-123",
-    cp: "8000",
-    city: "Buenos Aires",
-    country: "Argentina",
+    cp: "11000",
+    city: "Montevideo",
+    country: "Uruguay",
     phone: "3007476099",
     userType: "ADMIN",
     adminType: true

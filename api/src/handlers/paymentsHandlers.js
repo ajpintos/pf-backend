@@ -19,8 +19,8 @@ const paymentHandler = async (req, res) => {
                 unit_price: price
             }],
             back_urls: {
-                success: "/checkout/success",
-                failure: "/checkout/failure",
+                success: "http://127.0.0.1:5173/",
+                failure: "http://127.0.0.1:5173/",
                 pending: "",
             },
             auto_return: "approved",
