@@ -1,8 +1,13 @@
 const { Op } = require('sequelize');
 const { Orders, OrdersDetails, Products } = require('../db');
 
-const getAllOrdersDetails = async () => {
-  return await OrdersDetails.findAll();
+const getAllOrdersDetails = async (orderId) => {
+  if (!orderId) return await OrdersDetails.findAll();
+  return await OrdersDetails.findAll({
+    where : {
+      orderId: orderId
+    }
+  })
 };
 
 

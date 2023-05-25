@@ -2,7 +2,8 @@ const { getAllOrdersDetails, getOrderDetailsById, postOrderDetail, putOrderDetai
 
 const handlerGetAllOrdersDetails = async ( req , res ) => {
     try {
-        const allOrdersDetails = await getAllOrdersDetails();
+        const orderId = req.body.orderId;
+        const allOrdersDetails = await getAllOrdersDetails(orderId);
         if (allOrdersDetails.length < 1) throw Error('Orders details not found');
         res.status(200).json(allOrdersDetails);
     } catch (error) {
