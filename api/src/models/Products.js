@@ -38,6 +38,10 @@ module.exports = (sequelize) => {
       allowNull: false,
       defaultValue: 0,
     },
+    averageRating: {
+      type: DataTypes.INTEGER,
+      defaultValue: 0,
+    },
     updated: {
       type: DataTypes.DATE,
       defaultValue: DataTypes.NOW,

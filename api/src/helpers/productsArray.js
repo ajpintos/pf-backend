@@ -5,7 +5,8 @@ const productsArray = [
         description: "Nut rich in healthy fats, protein and fiber.",
         price: 2.50,
         stock: 50,
-        arrayCategories: ['Nuts']
+        arrayCategories: ['Nuts'],
+        averageRating: 5
     },
     {
         name: "Dates",
@@ -13,7 +14,8 @@ const productsArray = [
         description: "Dried fruit rich in fiber and vitamins.",
         price: 3.50,
         stock: 30,
-        arrayCategories: ['Nuts']
+        arrayCategories: ['Nuts'],
+        averageRating: 1,
     },
     {
         name: "Prunes",
@@ -21,7 +23,8 @@ const productsArray = [
         description: "Dried fruit rich in fiber, antioxidants and beneficial compounds for health.",
         price: 4.00,
         stock: 20,
-        arrayCategories: ['Nuts']
+        arrayCategories: ['Nuts'],
+        averageRating: 3,
     },
     {
         name: "Brazil nuts",
@@ -29,7 +32,8 @@ const productsArray = [
         description: "Nut rich in healthy fats, proteins and minerals",
         price: 6.00,
         stock: 40,
-        arrayCategories: ['Nuts']
+        arrayCategories: ['Nuts'],
+        averageRating: 2,
     },
     {
         name: "Dried figs",
