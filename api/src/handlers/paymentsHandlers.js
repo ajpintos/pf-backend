@@ -23,12 +23,14 @@ const paymentHandler = async (req, res) => {
             quantity: 1,
           },
         ],
-        notification_url: "https://9f56-181-167-187-75.sa.ngrok.io/webhook",
+        notification_url: "https://9f56-181-167-187-75.sa.ngrok.io/notifications",
         back_urls: {
-          success: "http://localhost:3000/success",
+          success: "http://localhost:3001/success",
           pending: "",
           failure: "",
         },
+        auto_return: "approved",
+        binary_mode: true,
       });
   
       console.log(result);
@@ -45,7 +47,7 @@ const paymentHandler = async (req, res) => {
       const payment = req.query;
       console.log(payment);
       if (payment.type === "payment") {
-        const data = await mercadopago.payment.findById(payment["data.id"]);
+        const data = await mercadopago.payment.findById(payment['data.id']);
         console.log(data);
       }
   

@@ -18,7 +18,9 @@ const infoUser = (data) => {
     cp: data.cp,
     city: data.city,
     country: data.country,
-    phone: data.phone
+    phone: data.phone,
+    userType: data.userType,
+    adminType: data.adminType
   }
 };
 
