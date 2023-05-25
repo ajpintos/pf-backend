@@ -1,9 +1,58 @@
 const mercadopago = require("mercadopago");
 require('dotenv').config();
 
+//////////////////////////////////////////////////////////////
+const paymentNotificationHandler = async (req, res) => {
+    try {
+let merchant_order = null;
 
-mercadopago.configure({access_token: process.env.MERCADOPAGO_KEY});
+switch (req.query.topic) {
+    case 'payment':
+        mercadopago.payment.findById(req.query.id)
+            .then(payment => {
+                merchant_order = mercadopago.merchantOrders.findById(payment.order.id);
+            })
+            .catch(error => {
+                console.log(error);
+            });
+        break;
+    case 'merchant_order':
+        merchant_order = mercadopago.merchantOrders.findById(req.query.id)
+            .catch(error => {
+                console.log(error);
+            });
+        break;
+}
 
+let paid_amount = 0;
+
+
+merchant_order.then(order => {
+    order.payments.forEach(payment => {
+        if (payment.status === 'approved') {
+            paid_amount += payment.transaction_amount;
+        }
+    });
+
+    if (paid_amount >= order.total_amount) {
+        if (order.shipments.length > 0) {
+            if (order.shipments[0].status === 'ready_to_ship') {
+                console.log('Totally paid. Print the label and release your item.');
+            }
+        } else {
+            console.log('Totally paid. Release your item.');
+        }
+    } else {
+        console.log('Not paid yet. Do not release your item.');
+    }
+
+})}
+catch (error)
+{
+    res.status(400).send({error: error.message});
+}};
+
+//////////////////////////////////////////////////////////////
 const paymentHandler = async (req, res) => {
     const { id , name , image , description , price } = req.body;
     try {
@@ -36,5 +85,6 @@ const paymentHandler = async (req, res) => {
 };
 
 module.exports = {
-    paymentHandler
+    paymentHandler,
+    paymentNotificationHandler
 }
