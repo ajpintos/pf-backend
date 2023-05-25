@@ -11,7 +11,7 @@ const paymentHandler = async (req, res) => {
     });
 
     try {
-      const result = await mercadopago.preferences.create({
+      mercadopago.preferences.create({
         items: [
           {
             id: id,
@@ -31,12 +31,12 @@ const paymentHandler = async (req, res) => {
         },
         auto_return: "approved",
         binary_mode: true,
-      });
+      }).then((response) => res.status(200).send({response})).catch((error) => res.status(400).send({error}));
   
-      console.log(result);
+    //   console.log(result);
   
-      // res.json({ message: "Payment creted" });
-      res.json(result.body);
+    //   // res.json({ message: "Payment creted" });
+    //   res.json(result.body);
     } catch (error) {
       return res.status(500).json({ message: "Something goes wrong" });
     }
