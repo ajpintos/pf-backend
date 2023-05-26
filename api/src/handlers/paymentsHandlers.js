@@ -1,15 +1,15 @@
 const mercadopago = require("mercadopago");
 require('dotenv').config();
 const { MERCADOPAGO_KEY } = process.env;
+const { HOST } = require("../config.js");
 
-mercadopago.configurations.setAccessToken(MERCADOPAGO_KEY);
+
 
 const paymentHandler = async (req, res) => {
-    const { id , name , image , description , price } = req.body;
-    mercadopago.configure({
-      access_token: MERCADOPAGO_KEY,
-    });
-
+  const { id , name , image , description , price } = req.body;
+  // mercadopago.configure({ access_token: MERCADOPAGO_KEY });
+  mercadopago.configurations.setAccessToken(MERCADOPAGO_KEY);
+  
     try {
       mercadopago.preferences.create({
         items: [
@@ -23,9 +23,9 @@ const paymentHandler = async (req, res) => {
             quantity: 1,
           },
         ],
-        notification_url: "https://six-pugs-end.loca.lt/payments/notifications",
+        notification_url: "https://2ca0-181-167-187-75.ngrok-free.app/payments/notifications",
         back_urls: {
-          success: "https://biofresh.shop/",
+          success: `${HOST}/payments/success`,
           pending: "",
           failure: "",
         },
@@ -55,8 +55,8 @@ const paymentHandler = async (req, res) => {
     } catch (error) {
       console.log(error);
       return res.status(500).json({ message: "Something goes wrong" });
-    }
-  };
+  }
+};
 
 module.exports = {
     paymentHandler,
