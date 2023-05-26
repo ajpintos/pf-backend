@@ -23,6 +23,10 @@ const postOrderDetail = async (orderDetail) => {
   const { idOrder, idProduct, units } = orderDetail;
   const product = await Products.findByPk(idProduct);
   if (product === null) throw Error('Product not found');
+
+  console.log('product en post ', product.averageRating);
+  let unitsProduct = product.averageRating;
+
   let order = await Orders.findByPk(idOrder);
   if (order === null) throw Error('Order not found');
   
@@ -62,11 +66,17 @@ const postOrderDetail = async (orderDetail) => {
     orderDetailAdd.amount = unitsAdd * product.price;
     orderDetailAdd.taxAmount = (unitsAdd * product.price) * product.tax;
     orderDetailAdd.totalAmount = ((unitsAdd * product.price) * product.tax) + (unitsAdd * product.price);
+    
     await orderDetailAdd.save();
+    
   };
-
+  
   await totalsOrder(idOrder);
-
+  
+  product.averageRating = unitsProduct + units;
+  await product.save();
+  console.log('product en post actualizado ', product.averageRating);
+  
   return orderDetailAdd;
 };
 
@@ -85,15 +95,24 @@ const putOrderDetail = async (orderDetail) => {
   const product = await Products.findByPk(productId);
   if (product === null) throw Error('Product not found');
 
+  console.log('product en put ', product.averageRating);
+  let unitsProduct = product.averageRating;
+  
+  
   // asignar nuevos valores
   orderDetailResult.units = units;
   orderDetailResult.amount = units * product.price;
   orderDetailResult.taxAmount = (units * product.price) * product.tax;
   orderDetailResult.totalAmount = ((units * product.price) * product.tax) + (units * product.price);
   await orderDetailResult.save();
-
+  
   await totalsOrder(orderId);
 
+
+  product.averageRating = units + unitsProduct;
+  await product.save();
+  console.log('product  actualizado en put ', product.averageRating);
+  
   return orderDetailResult;
 };
 
@@ -112,15 +131,22 @@ const deleteOrderDetail = async (idDetail) => {
   const product = await Products.findByPk(productId);
   if (product === null) throw Error('Product not found');
 
+  console.log('product en delete ', product.averageRating);
+  const unitsProduct = product.averageRating - resultOrderDetail.units;
+  
   // remover relaciones
   await order.removeOrdersDetails(orderDetailResult.id);
   await product.removeOrdersDetails(orderDetailResult.id);
-
+  
   // borrar detail
   await orderDetailResult.destroy();
-
+  
   await totalsOrder(orderId);
-
+  
+  product.averageRating = unitsProduct;
+  await product.save();
+  console.log('product actualizado en delete ', product.averageRating);
+  
   return resultOrderDetail;
 };  
 

@@ -46,9 +46,17 @@ const clearOrder = async (orderId) => {
         const productId = orderD.productId;
         const product = await Products.findByPk(productId);
         if (product === null) throw Error('Product not found');
+
+        console.log('product en delete ', product.averageRating);
+        const unitsProduct = product.averageRating - ordersDetailsFound[i].units;
+
         await orderClear.removeOrdersDetails(orderD.id);
         await product.removeOrdersDetails(orderD.id);
         await orderD.destroy();
+
+        product.averageRating = unitsProduct;
+        await product.save();
+        console.log('product actualizado en delete ', product.averageRating);
     };
     orderClear.amount = 0;
     orderClear.taxAmount = 0;
