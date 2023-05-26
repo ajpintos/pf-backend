@@ -23,9 +23,9 @@ const paymentHandler = async (req, res) => {
             quantity: 1,
           },
         ],
-        notification_url: "https://9f56-181-167-187-75.sa.ngrok.io/notifications",
+        notification_url: "https://35b6-167-63-9-177.ngrok-free.app/payments/notifications",
         back_urls: {
-          success: "http://localhost:3001/success",
+          success: "https://biofresh.shop/",
           pending: "",
           failure: "",
         },
@@ -42,23 +42,19 @@ const paymentHandler = async (req, res) => {
     }
   };
 
-  const receiveWebhook = async (req, res) => {
+  const notifications = async (req, res) => {
     try {
       const payment = req.query;
-      console.log(payment);
       if (payment.type === "payment") {
         const data = await mercadopago.payment.findById(payment['data.id']);
-        console.log(data);
+        return res.status(204).json(data);
       }
-  
-      res.sendStatus(204);
     } catch (error) {
-      console.log(error);
       return res.status(500).json({ message: "Something goes wrong" });
     }
   };
 
 module.exports = {
     paymentHandler,
-    receiveWebhook
+    notifications
 }

@@ -8,6 +8,13 @@ const getOrderById = async (id) => {
     return await Orders.findByPk(id);
 };
 
+const putShippingOrder = async(orderId, shipping) => {
+    const orderFound = await Orders.findByPk(orderId);
+    orderFound.shipping = shipping
+    await orderFound.save()
+    return orderFound;
+}
+
 const postOrder = async (userId) => {
     const userFound = await Users.findByPk(userId);
     if (userFound === null) throw Error('User not found');
@@ -71,4 +78,5 @@ module.exports = {
     postOrder,
     deleteOrder,
     clearOrder,
+    putShippingOrder
 };

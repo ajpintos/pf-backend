@@ -16,6 +16,10 @@ module.exports = (sequelize) => {
       type: DataTypes.FLOAT,
       defaultValue: 0,
     },
+    shipping: {
+      type: DataTypes.FLOAT,
+      defaultValue: 0
+    },
     totalAmount: {
       type: DataTypes.FLOAT,
       defaultValue: 0,
