@@ -1,4 +1,4 @@
-const { getAllOrders, getOrderById, postOrder, deleteOrder, clearOrder } = require('../controllers/ordersControllers.js');
+const { getAllOrders, getOrderById, postOrder, deleteOrder, clearOrder, putShippingOrder } = require('../controllers/ordersControllers.js');
 
 const handlerGetAllOrders = async ( req , res ) => {
     try {
@@ -18,6 +18,16 @@ const handlerGetOrderById = async ( req, res ) => {
         res.status(200).json(orderFound);
     } catch (error) {
         res.status(404).json(error.message);
+    }
+}
+
+const putShippingHandler = async(req, res) => {
+    try{
+        const {orderId, shipping} = req.body;
+        const orderFound = await putShippingOrder({orderId, shipping})
+        res.status(200).send(orderFound)
+    } catch(error){
+        res.status(404).json(error.message)
     }
 }
 
@@ -61,4 +71,5 @@ module.exports = {
     handlerPostOrder,
     handlerDeleteOrders,
     handlerClearOrders,
+    putShippingHandler
 }
