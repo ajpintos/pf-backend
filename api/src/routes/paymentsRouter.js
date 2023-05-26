@@ -3,7 +3,7 @@ const { Router } = require('express');
 // Requerir todos los handlers
 // ejemplo: const handlerProducts = require('../handlers/handlerProducts)
 
-const { paymentHandler , paymentNotificationHandler, paySuccessHandler , getAllPaymentsHandler} = require("../handlers/paymentsHandlers.js");
+const { paymentHandler , paySuccessHandler , getAllPaymentsHandler} = require("../handlers/paymentsHandlers.js");
 
 const paymentsRouter = Router();
 
