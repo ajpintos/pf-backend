@@ -1,70 +1,79 @@
-const { getAllProducts, getProductsByName, getProductById, postProduct, putProduct, deleteProduct, getProductsByCategory } = require("../controllers/productsController");
+const {
+  getAllProducts,
+  getProductsByName,
+  getProductById,
+  postProduct,
+  putProduct,
+  deleteProduct,
+  getProductsByCategory,
+} = require("../controllers/productsController");
 
 const handlerGetProducts = async (req, res) => {
   const { name, category, order } = req.query;
   try {
-    const productsArray = name 
+    const productsArray = name
       ? await getProductsByName(name)
-      : category 
-        ? await getProductsByCategory(category, order)
-        : await getAllProducts();
-    if (productsArray.length < 1) throw Error('Products not found');
+      : category
+      ? await getProductsByCategory(category, order)
+      : await getAllProducts();
+    if (productsArray.length < 1) throw Error("Products not found");
     res.status(200).json(productsArray);
   } catch (error) {
     res.status(400).send(error.message);
-  };  
+  }
 };
 
 const handlerGetProductById = async (req, res) => {
   const { prodId } = req.params;
   try {
     const product = await getProductById(prodId);
-    if (product === null) throw Error('Product not found');
+    if (product === null) throw Error("Product not found");
     res.status(200).json(product);
   } catch (error) {
     res.status(400).send(error.message);
-  };  
+  }
 };
 
 const handlerPostProducts = async (req, res) => {
   const body = req.body;
   try {
-    const product = { 
-      name: body.name, 
-      image: body.image, 
-      description: body.description, 
-      price: body.price, 
-      stock: body.stock, 
+    const product = {
+      name: body.name,
+      image: body.image,
+      description: body.description,
+      price: body.price,
+      stock: body.stock,
       tax: body.tax,
     };
     const categories = body.categories;
     const productResult = await postProduct(product, categories);
-    if (productResult === null) throw Error('Could not create product');
+    if (productResult === null) throw Error("Could not create product");
     res.status(200).json(productResult);
   } catch (error) {
-    res.status(400).send(error.message); 
-  };  
+    res.status(400).send(error.message);
+  }
 };
 
 const handlerPutProducts = async (req, res) => {
   const body = req.body;
   try {
-    const product = { 
+    const product = {
       id: body.id,
-      name: body.name, 
-      image: body.image, 
-      description: body.description, 
-      price: body.price, 
-      stock: body.stock, 
+      name: body.name,
+      image: body.image,
+      description: body.description,
+      price: body.price,
+      stock: body.stock,
       tax: body.tax,
     };
-    const categories = body.categories;  
+    const categories = body.categories;
     const productResult = await putProduct(product, categories);
-    if (productResult === null) throw Error('Could not update product or product not found');
+    if (productResult === null)
+      throw Error("Could not update product or product not found");
     res.status(200).json(productResult);
   } catch (error) {
     res.status(400).send(error.message);
-  };  
+  }
 };
 
 const handlerDeleteProducts = async (req, res) => {
@@ -74,13 +83,33 @@ const handlerDeleteProducts = async (req, res) => {
     const idProduct = body.id;
     const active = body.active;
     const productResult = await deleteProduct(idProduct, active);
-    if ( productResult === null) throw Error ('Could not disable product or product not found');
+    if (productResult === null)
+      throw Error("Could not disable product or product not found");
     res.status(200).json(productResult);
   } catch (error) {
     res.status(400).send(error.message);
-  };  
+  }
 };
 
+const handleSubir = (req, res) => {
+  console.log(req.files);
+  if (req.files === null) {
+    return;
+  }
+  if (!req.files || Object.keys(req.files).length === 0) {
+    return res.status(400).send("no se han cargado archivos");
+  }
+
+  sampleFile = req.files.File;
+  uploadPath = __dirname + "/imgProducts/" + sampleFile.name;
+
+  // Use the mv() method to place the file somewhere on your server
+  sampleFile.mv(uploadPath, function (err) {
+    if (err) return res.status(500).send(err);
+
+    res.send("File uploaded!");
+  });
+};
 
 module.exports = {
   handlerGetProducts,
@@ -88,4 +117,5 @@ module.exports = {
   handlerPostProducts,
   handlerPutProducts,
   handlerDeleteProducts,
+  handleSubir,
 };
