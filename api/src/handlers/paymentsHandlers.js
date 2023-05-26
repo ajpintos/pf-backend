@@ -2,6 +2,7 @@ const mercadopago = require("mercadopago");
 require('dotenv').config();
 const { MERCADOPAGO_KEY } = process.env;
 const { HOST } = require("../config.js");
+const {addPaymentUser} = require("../controllers/paymentsController.js");
 
 const paymentHandler = async (req, res) => {
   const { id , name , image , description , price } = req.body;
@@ -55,9 +56,10 @@ const paymentHandler = async (req, res) => {
   }
 };
 
-const paySuccsessHandler = async (req, res) => {
+const paySuccessHandler = async (req, res) => {
   const { payment_id , status , payment_type } = req.query;
   try {
+    const payment = await addPaymentUser(payment_id, status, payment_type, req.body.orderId)
     console.log("este es el paymentid:",payment_id);
     console.log("este es el status:",status);
     console.log("este es el paymentType:",payment_type);
@@ -70,5 +72,5 @@ const paySuccsessHandler = async (req, res) => {
 module.exports = {
     paymentHandler,
     paymentNotificationHandler,
-    paySuccsessHandler
+    paySuccessHandler
 }

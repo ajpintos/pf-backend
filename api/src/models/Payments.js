@@ -3,21 +3,16 @@ const { DataTypes } = require("sequelize");
 module.exports = (sequelize) => {
   sequelize.define("payments", {
     id: {
-      type: DataTypes.UUID,
+      type: DataTypes.STRING,
       primaryKey: true,
-      defaultValue: DataTypes.UUIDV4,
     },
     name: {
       type: DataTypes.STRING(50),
       allowNull: false,
     },
-    description: {
-      type: DataTypes.STRING(255),
-      allowNull: false,
-    },
     status: {
       type: DataTypes.BOOLEAN,
-      defaultValue: true,
+      defaultValue: false,
     },
     updated: {
       type: DataTypes.DATE,
