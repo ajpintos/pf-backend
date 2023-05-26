@@ -46,6 +46,15 @@ const paymentHandler = async (req, res) => {
     }
   };
 
+  const paySuccessHandler = async (req, res) => {
+    const { payment_id , status , payment_type , orderId , email } = req.query;
+    try {
+      await addPaymentUser(payment_id, status, payment_type, orderId, email);
+      res.redirect('https://biofresh.shop');
+    } catch (error) {
+      res.redirect('https://biofresh.shop');
+    }
+  }
 //   const paymentNotificationHandler = async (req, res) => {
 //     try {
 //       const payment = req.query;
@@ -66,15 +75,6 @@ const paymentHandler = async (req, res) => {
 //   }
 // };
 
-const paySuccessHandler = async (req, res) => {
-  const { payment_id , status , payment_type , orderId , email } = req.query;
-  try {
-    await addPaymentUser(payment_id, status, payment_type, orderId, email);
-    res.status(201).send("success");
-  } catch (error) {
-    res.status(404).send(error.message);
-  }
-}
 
 module.exports = {
     paymentHandler,
