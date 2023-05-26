@@ -23,9 +23,9 @@ const paymentHandler = async (req, res) => {
             quantity: 1,
           },
         ],
-        notification_url: "https://9f56-181-167-187-75.sa.ngrok.io/notifications",
+        notification_url: "https://six-pugs-end.loca.lt/payments/notifications",
         back_urls: {
-          success: "http://localhost:3001/success",
+          success: "https://biofresh.shop/",
           pending: "",
           failure: "",
         },
@@ -42,13 +42,13 @@ const paymentHandler = async (req, res) => {
     }
   };
 
-  const receiveWebhook = async (req, res) => {
+  const notifications = async (req, res) => {
     try {
       const payment = req.query;
-      console.log(payment);
+      console.log("Este es el contenido de payments",payment);
       if (payment.type === "payment") {
         const data = await mercadopago.payment.findById(payment['data.id']);
-        console.log(data);
+        console.log("Esto es la data de Notifications",data);
       }
   
       res.sendStatus(204);
@@ -60,5 +60,5 @@ const paymentHandler = async (req, res) => {
 
 module.exports = {
     paymentHandler,
-    receiveWebhook
+    notifications
 }
