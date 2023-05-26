@@ -1,5 +1,7 @@
-// const { Payments } = require("../db.js");
+const { Payments , Orders , Users } = require("../db.js");
 
-// const addPaymentUser = async (data) => {
-//     const 
-// }
+const addPaymentUser = async (data) => {
+    const findUserOrder = Users.findOne ({})
+}
+
+module.exports = addPaymentUser;
