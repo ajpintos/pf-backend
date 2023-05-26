@@ -7,6 +7,7 @@ const usersRouter = require('./usersRouter');
 const categoriesRouter = require('./categoriesRouter');
 const productsRouter = require('./productsRouter');
 const ordersRouter = require('./ordersRouter');
+const deliveriesRouter = require('./deliveriesRouter')
 const ordersDetailsRouter = require('./ordersDetailsRouter');
 const favoritesRouter = require('./favoritesRouter');
 const paymentsRouter = require('./paymentsRouter');
@@ -23,6 +24,7 @@ mainRouter.use('/categories', categoriesRouter);
 mainRouter.use('/products', productsRouter);
 mainRouter.use('/orders', ordersRouter);
 mainRouter.use('/ordersDetails', ordersDetailsRouter)
+mainRouter.use('/deliveries', deliveriesRouter);
 mainRouter.use('/favorites', favoritesRouter);
 mainRouter.use('/payments', paymentsRouter);
 
