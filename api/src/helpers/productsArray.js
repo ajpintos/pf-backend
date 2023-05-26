@@ -73,7 +73,8 @@ const productsArray = [
         description: "Nut rich in healthy fats, protein and fiber.",
         price: 2.25,
         stock: 60,
-        arrayCategories: ['Nuts']
+        arrayCategories: ['Nuts'],
+        averageRating: 12
     },
     {
         name: "Raisins",
@@ -121,7 +122,8 @@ const productsArray = [
         description: "Natural juice of fresh apples, rich in vitamins and antioxidants.",
         price: 2.25,
         stock: 30,
-        arrayCategories: ['Fruits and vegetables']
+        arrayCategories: ['Fruits and vegetables'],
+        averageRating: 22
     },
     {
         name: "Ginger tea",
