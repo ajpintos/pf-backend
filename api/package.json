@@ -22,7 +22,6 @@
     "sequelize": "^6.31.0"
   },
   "devDependencies": {
-    "localtunnel": "^2.0.2",
     "nodemon": "^2.0.22"
   }
 }
