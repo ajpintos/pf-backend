@@ -1,22 +1,29 @@
 const {Payments, Orders, Users} = require("../db.js");
 
-const addPaymentUser = async (payment_id, status, payment_type, orderId) => {
-    const userFindOrder = await Users.findOne({
-        include: [
-            {
-                model: Order,
-                where: {
-                    id: orderId
-                }
-            }
-        ]
-    });
-    if (userFindOrder) {
-        const payment = await Payments.create({id:data.payment_id, name:data.payment_type, status:data.status});
-        await payment.setOrder(userFindOrder);
-        console.log("Payment:", payment)
-        return payment;
-    }
+const getAllPayments = async () => {
+    return await Payments.findAll();
 }
 
-module.exports = addPaymentUser;
+const addPaymentUser = async (payment_id, status, payment_type, orderId , email) => {
+    const userFindOrder = await Users.findOne({
+        where: {
+          email
+        },
+        include: [
+          {
+            model: Orders,
+            where: {
+              id: orderId
+            }
+          }
+        ]
+      });
+      
+      if (userFindOrder) {
+        const payment = await Payments.create({ id: payment_id, name: payment_type, status: status, userEmail: email });
+        await payment.addOrder(userFindOrder);
+        return payment;
+      }      
+}
+
+module.exports = { addPaymentUser , getAllPayments };

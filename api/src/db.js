@@ -36,7 +36,7 @@ const { Users, Products, Categories, Ratings, Favorites, Orders, OrdersDetails, 
 // // Aca vendrían las relaciones
 
 Users.belongsToMany(Orders, {through: "usersOrders"});
-Orders.belongsToMany(Users, {through: "usersOrders"});
+Orders.belongsTo(Users);
 
 Users.belongsToMany(Ratings, {through: "usersRatings"});
 Ratings.belongsToMany(Users, {through: "usersRatings"});
